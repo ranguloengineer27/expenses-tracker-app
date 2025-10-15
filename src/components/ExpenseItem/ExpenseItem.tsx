@@ -1,4 +1,4 @@
-import type { Expense } from "../api/types";
+import type { Expense } from "../../api/types";
 
 type ExpenseItemProps = {
   expense: Expense;

@@ -1,32 +1,31 @@
 import { useState, useEffect } from "react";
-import type { Expense } from "./api/types";
-import ExpenseForm from "./components/ExpenseForm";
-import ExpenseList from "./components/ExpenseList";
+import type { Expense, ExpenseCategory } from "./api/types";
+import ExpenseForm from "./components/ExpenseForm/ExpenseForm";
+import ExpenseList from "./components/ExpenseList/ExpenseList";
+import "./_globals.scss";
+import { addServerExpense, getServerExpenses } from "./api/expenses";
+import { addServerCategory, getCategories } from "./api/categories";
+import { useExpenses } from "./hooks/useExpenses";
+import { useExpenseData } from "./hooks/useExpenseData";
 
 function App() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, addExpense] = useExpenseData<Expense>(getServerExpenses, addServerExpense);
+  const [categories, addCategory] = useExpenseData<ExpenseCategory>(getServerExpenses, addServerCategory);
 
-  useEffect(() => {
-    const storedExpenses = localStorage.getItem("expenses");
-    if (storedExpenses) setExpenses(JSON.parse(storedExpenses));
-  }, []);
+  //const [categories, setCategories] = useState<ExpenseCategory[]>([]);
 
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }, [expenses]);
 
-  const addExpense = (expense: Expense) => {
-    setExpenses([...expenses, expense]);
-  };
-
+  
   const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
 
   return (
-    <div className="App">
-      <h1>Expenses tracker</h1>
-      <ExpenseForm onAddExpense={addExpense} />
-      <ExpenseList expenses={expenses} />
-      <h2>Total: ${total.toFixed(2)}</h2>
+    <div className="">
+      <div>
+        <h1>Expenses tracker</h1>
+        <ExpenseForm onAddExpense={addExpense} categories={categories} />
+        <ExpenseList expenses={expenses} />
+        <h2>Total: ${total.toFixed(2)}</h2>
+      </div>
     </div>
   );
 }
