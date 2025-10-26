@@ -1,3 +1,56 @@
+$spacings: (
+  1: 1rem,
+  2: 2rem,
+  3: 3rem
+);
+
+$translateY: (
+  1: 0 1rem,
+  2: 0 2rem,
+  3: 0 3rem
+);
+
+$justifying: (
+  1: 'center',
+  2: 'between',
+  3: 'evenly'
+);
+
+$align: (
+  center: center,
+);
+
+$widths: (
+  1: "30%",
+  2: "50%",
+  3: "70%",
+  4: "100%"
+);
+
+$minHeights: (
+  11: 11rem
+);
+
+@mixin generate-classes($prefix, $map, $property) {
+  @each $key, $value in $map {
+    .#{$prefix}-#{$key} {
+      #{$property}: $value;
+    }
+  }
+}
+
+@include generate-classes('mt', $spacings, 'margin-top');
+@include generate-classes('transform-y', $translateY, 'translate');
+@include generate-classes('gap', $spacings, 'gap');
+@include generate-classes('w', $spacings, 'width');
+@include generate-classes('min-h', $minHeights, 'min-height');
+@include generate-classes('align-items', $align, 'align-items');
+@include generate-classes('justify-content', $justifying, 'justify-content');
+
+.pt-10 {
+  padding-top: var(--spacing-space-10);
+}
+
 .flex {
   display: flex;
 }
@@ -12,14 +65,6 @@
 
 .justify-content-evenly {
   justify-content: space-evenly;
-}
-
-.mt-2 {
-  margin-top: 2rem;
-}
-
-.mb-2 {
-  margin-bottom: 2rem;
 }
 
 .visibility-hidden {
@@ -41,5 +86,5 @@
 .container {
   @extend .w-100;
   @extend .flex;
-  @extend .justify-content-center
+  @extend .justify-content-center;
 }
