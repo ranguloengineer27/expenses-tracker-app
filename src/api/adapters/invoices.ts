@@ -20,7 +20,7 @@ export const extractInvoiceData = async (
     const products: ExpenseClient[] = data.line_items.map((product) => ({
         title: product.full_description,
         amount: product.total,
+        id: product.id
     }));
-
     return products
 }

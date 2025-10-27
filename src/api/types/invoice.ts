@@ -1,5 +1,6 @@
 export type ServerInvoice = {
     line_items: Array<{
+        id: string;
         full_description: string;
         total: number;
         type: string;

@@ -1,8 +1,13 @@
 export type Expense = {
-    id: number;
+    id: string;
     title: string;
     amount: number;
     categoryId: string;
 }
 
-export type ExpenseClient = Omit<Expense, "id" | "categoryId">;
+export type ExpenseClient = {
+    id?: string;
+    categoryId?: string;
+    title: string;
+    amount: number;
+}

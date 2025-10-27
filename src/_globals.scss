@@ -1,4 +1,5 @@
 $spacings: (
+  0: 0,
   1: 1rem,
   2: 2rem,
   3: 3rem
@@ -21,10 +22,11 @@ $align: (
 );
 
 $widths: (
-  1: "30%",
-  2: "50%",
-  3: "70%",
-  4: "100%"
+  10: 10%,
+  30: 30%,
+  50: 50%,
+  70: 70%,
+  100: 100%
 );
 
 $minHeights: (
@@ -42,7 +44,7 @@ $minHeights: (
 @include generate-classes('mt', $spacings, 'margin-top');
 @include generate-classes('transform-y', $translateY, 'translate');
 @include generate-classes('gap', $spacings, 'gap');
-@include generate-classes('w', $spacings, 'width');
+@include generate-classes('w', $widths, 'width');
 @include generate-classes('min-h', $minHeights, 'min-height');
 @include generate-classes('align-items', $align, 'align-items');
 @include generate-classes('justify-content', $justifying, 'justify-content');
@@ -77,6 +79,14 @@ $minHeights: (
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
 }
 
 .w-100 {

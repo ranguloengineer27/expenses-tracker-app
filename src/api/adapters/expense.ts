@@ -13,11 +13,11 @@ export const getServerExpenses = async (): Promise<Expense[] | undefined> => {
     }
 }
 
-export const addServerExpense = async (expense: ExpenseClient): Promise<Expense[] | undefined> => {
+export const addServerExpense = async (newExpenses: ExpenseClient[]): Promise<Expense[] | undefined> => {
     try {
         const expenses = await getServerExpenses() ?? [];
 
-        localStorage.setItem("expenses", JSON.stringify([...expenses, { ...expense, id: uuid() }]));
+        localStorage.setItem("expenses", JSON.stringify([...expenses, ...newExpenses.map((exp) => ({ ...exp, id: uuid() }))]));
 
         return await getServerExpenses();
     } catch (e) {

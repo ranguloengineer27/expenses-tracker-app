@@ -1,19 +1,21 @@
-import { useState } from "react"
+import { useState, type FC } from "react"
 import { extractInvoiceData } from "../../api/adapters/invoices"
 import Button from "../Button"
 import Input from "../Input"
+import type { ExpenseClient } from "../../api/types"
 
-const processFileInvoice = async (invoiceFile: File | null) => {
-    if (!invoiceFile) return;
+const getExpensesFromInvoiceFile = async (invoiceFile: File | null): Promise<ExpenseClient[]> => {
+    if (!invoiceFile) [];
 
-    const expenseData = await extractInvoiceData(invoiceFile);
-
-    console.log('EXPENSE DATA :::', expenseData)
+    return await extractInvoiceData(invoiceFile!);
 }
 
-const AddInvoiceFile = () => {
+type Props = {
+    setExpenses: (expenses: ExpenseClient[]) => void
+}
+
+const AddInvoiceFile: FC<Props> = ({ setExpenses }) => {
     const [file, setFile] = useState<File | null>(null);
-    console.log('FILE ::::', file);
 
     return (
         <>
@@ -24,7 +26,10 @@ const AddInvoiceFile = () => {
                 setFile(fileData)
             }} />
             <Button onClick={() => {
-                processFileInvoice(file);
+                (async () => {
+                    const data = await getExpensesFromInvoiceFile(file);
+                    setExpenses(data);
+                })();
             }}>Add</Button></>
     )
 }

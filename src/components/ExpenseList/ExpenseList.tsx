@@ -1,19 +1,29 @@
-import ExpenseItem from "../ExpenseItem/ExpenseItem";
-import type { Expense } from "../../api/types";
+import type { Expense, ExpenseClient } from "../../api/types";
+import List from "../List";
+import ExpenseListItem from "../ExpenseItem/ExpenseItem";
 
-interface ExpenseListProps {
-  expenses: Expense[];
+type ExpenseListProps = {
+  expenses: Expense[] | ExpenseClient[];
+  updateExpensesList: (id: string, newData: ExpenseClient) => void;
 }
 
-const ExpenseList: React.FC<ExpenseListProps> = ({ expenses }) => {
+const ExpenseList: React.FC<ExpenseListProps> = ({ expenses, updateExpensesList }) => {
   if (expenses.length === 0) return <p>No hay gastos registrados</p>;
 
   return (
-    <ul>
-      {expenses.map((expense) => (
-        <ExpenseItem key={expense.id} expense={expense} />
-      ))}
-    </ul>
+    <List>
+      {expenses.map((expense) => {
+        return (
+          <ExpenseListItem
+            title={expense.title}
+            amount={expense.amount}
+            id={expense?.id ?? ''}
+            updateExpensesList={updateExpensesList}
+          />
+        )
+      })
+      }
+    </List >
   );
 };
 

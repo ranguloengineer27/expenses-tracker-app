@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { Expense, ExpenseClient } from "./api/types";
 import ExpenseForm from "./components/ExpenseForm/ExpenseForm";
 import ExpenseList from "./components/ExpenseList/ExpenseList";
 import "./_globals.scss";
-import { addServerExpense, getServerExpenses } from "./api/adapters/expense";
+import { addServerExpense } from "./api/adapters/expense";
 import Button from "./components/Button";
 import AddInvoiceFile from "./components/AddInvoiceFile/AddInvoiceFile";
-
 
 const Tabs = {
   manual: "manual",
@@ -14,20 +13,8 @@ const Tabs = {
 } as const
 
 function App() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<Expense[] | ExpenseClient[]>([]);
   const [tab, setTab] = useState<keyof typeof Tabs>(Tabs.manual);
-
-
-  useEffect(() => {
-    (async () => {
-      const data = await getServerExpenses();
-      if (!data) return;
-
-      setExpenses(data)
-    })()
-  }, [])
-
-  const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
 
   return (
     <div className="w-100">
@@ -43,18 +30,32 @@ function App() {
           </Button>
         </div>
         <div className="min-h-11">
-          {tab === Tabs.manual ? <ExpenseForm onAddExpense={async (expense: ExpenseClient) => {
-            const expensesData = await addServerExpense(expense);
-            if (!expensesData) return;
+          {tab === Tabs.manual
+            ? <ExpenseForm
+              onAddExpense={async (expense: ExpenseClient) => {
+                const expensesData = await addServerExpense([expense]);
+                if (!expensesData) return;
 
-            setExpenses(expensesData);
-          }} />
+                setExpenses(expensesData);
+              }}
+            />
             : <div className="transform-y-3">
-              <AddInvoiceFile />
+              <AddInvoiceFile setExpenses={setExpenses} />
             </div>}
         </div>
-        <ExpenseList expenses={expenses} />
-        <h2>Total: ${total.toFixed(2)}</h2>
+        <ExpenseList expenses={expenses} updateExpensesList={(id: string, newData: ExpenseClient) => {
+          const expenseIndex = expenses.findIndex((expense) => expense.id === id);
+          const newList = [...expenses];
+
+          newList[expenseIndex] = {
+            ...newList[expenseIndex],
+            ...newData
+          }
+
+          setExpenses(newList);
+        }} />
+        {tab === Tabs.file && <div>Confirm expenses</div>}
+        {/* <h2>Total: ${total?.toFixed(2)}</h2> */}
       </div>
     </div>
   );
