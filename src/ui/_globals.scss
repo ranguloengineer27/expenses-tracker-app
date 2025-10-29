@@ -12,9 +12,10 @@ $translateY: (
 );
 
 $justifying: (
-  1: 'center',
-  2: 'between',
-  3: 'evenly'
+  center: center,
+  between: space-between,
+  evenly: space-evenly,
+  around: space-around
 );
 
 $align: (
@@ -57,6 +58,15 @@ $minHeights: (
   display: flex;
 }
 
+.flex-column {
+  flex-direction: column;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* 
 .justify-content-center {
   justify-content: center;
 }
@@ -67,6 +77,10 @@ $minHeights: (
 
 .justify-content-evenly {
   justify-content: space-evenly;
+} */
+
+.margin-inline-auto {
+  margin-inline: auto;
 }
 
 .visibility-hidden {

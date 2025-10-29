@@ -1,6 +1,6 @@
 import React from "react";
 import mergeClasses from "../helpers/mergeClasses";
-import type { Sizes, Variants, Contexts } from "../types";
+import type { Contexts, Sizes, Variants } from "./types/types";
 
 export type ButtonSizes = Extract<Sizes, "xs" | "sm" | "md" | "lg" | "xl">;
 

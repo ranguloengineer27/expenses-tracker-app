@@ -1,4 +1,4 @@
-import type { Expense, ExpenseClient } from "../../api/types";
+import type { Expense, ExpenseClient } from "../../../api/types";
 import List from "../List";
 import ExpenseListItem from "../ExpenseItem/ExpenseItem";
 

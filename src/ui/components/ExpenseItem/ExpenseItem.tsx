@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import type { ExpenseClient } from "../../api/types";
+import type { ExpenseClient } from "../../../api/types";
 import List from "../List";
 import Input from "../Input";
 import Button from "../Button";
@@ -26,7 +26,6 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({ id, title, amount, updateEx
       }} />
       <Button onClick={() => {
         setIsEdit(false);
-        console.log('ID :::', id)
         updateExpensesList(
           id,
           {

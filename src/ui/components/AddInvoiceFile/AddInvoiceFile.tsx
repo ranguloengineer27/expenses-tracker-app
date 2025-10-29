@@ -1,8 +1,8 @@
 import { useState, type FC } from "react"
-import { extractInvoiceData } from "../../api/adapters/invoices"
+import { extractInvoiceData } from "../../../api/adapters/invoices"
 import Button from "../Button"
 import Input from "../Input"
-import type { ExpenseClient } from "../../api/types"
+import type { ExpenseClient } from "../../../api/types"
 
 const getExpensesFromInvoiceFile = async (invoiceFile: File | null): Promise<ExpenseClient[]> => {
     if (!invoiceFile) [];

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import type { ExpenseCategory, ExpenseClient } from "../../api/types";
+import type { ExpenseCategory, ExpenseClient } from "../../../api/types";
 import Select from "../Select";
 import Input from "../Input";
 import Button from "../Button";
 import AddCategoryDialog from "../AddCategoryDialog/AddCategoryDialog";
-import { addServerCategory, getServerCategories } from "../../api/adapters/category";
+import { addServerCategory, getServerCategories } from "../../../api/adapters/category";
 
 type ExpenseFormProps = {
   onAddExpense: (expense: ExpenseClient) => void;

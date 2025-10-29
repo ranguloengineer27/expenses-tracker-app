@@ -1,0 +1,27 @@
+import { useContext } from "react"
+import { useAuth } from "../../hooks/useAuth"
+import { ProfileContext } from "../../providers/ProfileContext"
+import { ROUTES } from "../../AppRouter"
+import { useNavigate } from "react-router-dom"
+import CSS from "./Dashboard.module.scss"
+
+export const Dashboard = () => {
+    const { signOut } = useAuth()
+    const { profile } = useContext(ProfileContext)
+
+    const navigate = useNavigate();
+
+    if (!profile) {
+        navigate(ROUTES.profile);
+        return;
+    };
+
+    return (
+        <div className="w-100">
+            <p>Welcome, {profile?.name}</p>
+            <div className={CSS.Dashboard}>
+                <button onClick={signOut}>Sign Out</button>
+            </div>
+        </div>
+    )
+}
