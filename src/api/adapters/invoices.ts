@@ -1,26 +1,29 @@
-import type { ExpenseClient, ServerInvoice } from "../types";
+import type { Expense, ServerInvoice } from "../types";
 
 export const extractInvoiceData = async (
     file: File,
-): Promise<ExpenseClient[]> => {
-    const formData = new FormData()
+    userId: string,
+    projectId: string
+): Promise<Expense[]> => {
+    const formData = new FormData();
     formData.append("file", file);
 
     const resp = await fetch("http://localhost:3009/api/readReceipt", {
         method: "POST",
-        body: formData
-    })
+        body: formData,
+    });
 
     if (!resp.ok) {
-        throw new Error(`Invoice extraction failed: ${resp.status}`)
+        throw new Error(`Invoice extraction failed: ${resp.status}`);
     }
 
     const data: ServerInvoice = await resp.json();
 
-    const products: ExpenseClient[] = data.line_items.map((product) => ({
-        title: product.full_description,
+    const products: Expense[] = data.line_items.map((product) => ({
+        description: product.full_description,
         amount: product.total,
-        id: product.id
+        user_id: userId,
+        project_id: projectId
     }));
-    return products
-}
+    return products;
+};

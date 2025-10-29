@@ -5,11 +5,13 @@ Express server for the expenses tracker application built with TypeScript.
 ## Setup
 
 1. Navigate to the server directory:
+
    ```bash
    cd src/server
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```

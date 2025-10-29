@@ -1,38 +1,51 @@
-import { useEffect, useState } from "react";
-import type { ExpenseCategory, ExpenseClient } from "../../../api/types";
+import { useState } from "react";
+import type { Expense, ExpenseClientCategory } from "../../../api/types";
 import Select from "../Select";
 import Input from "../Input";
 import Button from "../Button";
 import AddCategoryDialog from "../AddCategoryDialog/AddCategoryDialog";
-import { addServerCategory, getServerCategories } from "../../../api/adapters/category";
+import { fetchCategories } from "../../../api/adapters";
+import { useCurrentProject } from "../../hooks/useCurrentProject";
+import { useQuery } from "@tanstack/react-query";
+import { useCreateCategories } from "../../hooks/useCategoriesCreation";
+import { useAuth } from "../../hooks/useAuth";
 
 type ExpenseFormProps = {
-  onAddExpense: (expense: ExpenseClient) => void;
-}
+  onAddExpense: (expense: Expense) => void;
+};
 
 const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
+  const project = useCurrentProject();
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [categoryId, setCategoryId] = useState<string>('');
-  const [categories, setCategories] = useState<ExpenseCategory[]>();
+  const [categoryId, setCategoryId] = useState<string>("");
+  const projectId = project?.id!;
+  const { mutate: addCategories, isPending } = useCreateCategories(projectId);
+  const { user } = useAuth();
+  const userId = user?.id;
 
-  useEffect(() => {
-    (async () => {
-      const serverCategories = await getServerCategories();
-      setCategories(serverCategories);
-    })()
-  }, [])
+
+  const { data: categoriesData } = useQuery({
+    queryKey: ['categories', projectId],
+    queryFn: () => fetchCategories(projectId),
+    enabled: !!projectId,
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!title || !amount) return;
 
-    onAddExpense({ title, amount: parseFloat(amount), categoryId });
+    onAddExpense({
+      description: title,
+      amount: parseFloat(amount),
+      category_id: categoryId,
+      project_id: project?.id ?? '',
+      user_id: userId as string
+    });
     setTitle("");
     setAmount("");
   };
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -52,25 +65,36 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
       </div>
       <div className="mt-1 flex gap-1">
         <div className="pt-10 w-30">
-          {categories?.length ? <>
-            <Select aria-placeholder="Select Category" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} required>
-              <Select.Option value="" disabled hidden>
-                Select an option...
-              </Select.Option>
-              {categories.map((category) => <Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>)}
-            </Select>
-          </> : null
-          }
+          {categoriesData?.length ? (
+            <>
+              <Select
+                aria-placeholder="Select Category"
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
+                required
+              >
+                <Select.Option value="" disabled hidden>
+                  Select an option...
+                </Select.Option>
+                {categoriesData.map((category) => (
+                  <Select.Option key={category.id} value={category.id}>
+                    {category.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </>
+          ) : null}
         </div>
 
         <AddCategoryDialog
-          addServerCategory={async (newCat) => {
-            const newCategories = await addServerCategory(newCat);
-            setCategories(newCategories);
+          addServerCategory={async (newCats: ExpenseClientCategory[]) => {
+            addCategories(newCats);
           }}
         />
       </div>
-      <Button type="submit" className="mt-1">Add expense</Button>
+      <Button type="submit" className="mt-1">
+        Add expense
+      </Button>
     </form>
   );
 };

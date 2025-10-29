@@ -33,7 +33,7 @@ const Content = ({ children }: DialogProps) => {
         <button></button>
       </form>
     </dialog>,
-    document.body
+    document.body,
   );
 };
 

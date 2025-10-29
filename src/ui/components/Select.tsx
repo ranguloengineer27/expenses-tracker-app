@@ -49,7 +49,7 @@ const Root = ({
         size !== "md" && `moon-select-${size}`,
         variant !== "fill" && `moon-select-${variant}`,
         error && "moon-select-error",
-        className
+        className,
       )}
       {...props}
     >

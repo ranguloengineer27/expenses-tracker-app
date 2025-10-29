@@ -27,7 +27,7 @@ const Input = ({
       size !== "md" && `moon-input-${size}`,
       variant !== "fill" && `moon-input-${variant}`,
       error && "moon-input-error",
-      className
+      className,
     )}
     {...props}
   />

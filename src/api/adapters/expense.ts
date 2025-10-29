@@ -1,26 +1,36 @@
-import type { Expense, ExpenseClient } from "../types"
-import { v4 as uuid } from 'uuid';
+import { supabaseClient } from "../clients/supabaseClient";
+import type { Expense } from "../types";
 
-export const getServerExpenses = async (): Promise<Expense[] | undefined> => {
+export const fetchExpensesByProjectId = async (
+    projectId: string,
+): Promise<Expense[]> => {
     try {
-        const expensesData = await localStorage.getItem("expenses");
+        const { data, error } = await supabaseClient
+            .from("expenses")
+            .select("*")
+            .eq("project_id", projectId)
+            .order("created_at", { ascending: false }); // most recent go first
 
-        if (expensesData) {
-            return JSON.parse(expensesData)
-        }
-    } catch (e) {
-        throw new Error(`Error getting expense ${e}`)
+        if (error) throw error;
+
+        return data;
+    } catch (error) {
+        console.error("Error fetching expenses:", error);
+        throw new Error(`Could not fetch expenses for project ${projectId}`);
     }
-}
+};
 
-export const addServerExpense = async (newExpenses: ExpenseClient[]): Promise<Expense[] | undefined> => {
+export const addExpenseToProject = async (expenses: Expense[]) => {
     try {
-        const expenses = await getServerExpenses() ?? [];
+        const { data, error } = await supabaseClient
+            .from("expenses")
+            .insert(expenses)
+            .select();
 
-        localStorage.setItem("expenses", JSON.stringify([...expenses, ...newExpenses.map((exp) => ({ ...exp, id: uuid() }))]));
-
-        return await getServerExpenses();
-    } catch (e) {
-        throw new Error(`Error adding expense ${e}`)
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error("Error adding expense:", error);
+        throw new Error("Could not add expense");
     }
-}
+};

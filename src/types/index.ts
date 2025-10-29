@@ -10,8 +10,6 @@ export type Sizes =
   | "xl"
   | "2xl";
 
-export type Variants = "fill" | "soft" | "ghost" | "outline";
-
 export type Contexts =
   | "brand"
   | "neutral"
@@ -19,3 +17,9 @@ export type Contexts =
   | "negative"
   | "caution"
   | "info";
+
+export type Variants = "fill" | "soft" | "ghost" | "outline";
+
+export type Directions = "next" | "previous";
+
+export type Positions = "end" | "start" | "top" | "bottom";

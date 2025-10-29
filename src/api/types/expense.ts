@@ -1,13 +1,8 @@
 export type Expense = {
-    id: string;
-    title: string;
-    amount: number;
-    categoryId: string;
-}
-
-export type ExpenseClient = {
     id?: string;
-    categoryId?: string;
-    title: string;
+    project_id: string;
+    description: string;
     amount: number;
-}
+    category_id?: string | null;
+    user_id: string;
+};

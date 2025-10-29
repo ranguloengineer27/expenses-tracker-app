@@ -1,6 +1,6 @@
 import React from "react";
 import mergeClasses from "../helpers/mergeClasses";
-import type { Sizes } from "./Select";
+import type { Sizes } from "./types/types";
 
 export type ListSizes = Extract<Sizes, "sm" | "md" | "lg">;
 
@@ -40,7 +40,7 @@ const Root = ({ size = "md", children, className, ...props }: ListProps) => (
     className={mergeClasses(
       "moon-list",
       size !== "md" && `moon-list-${size}`,
-      className
+      className,
     )}
     {...props}
   >

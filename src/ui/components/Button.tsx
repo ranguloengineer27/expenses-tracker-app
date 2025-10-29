@@ -29,7 +29,7 @@ const Button = ({
       size !== "md" && `moon-button-${size}`,
       context !== "brand" && `moon-button-${context}`,
       isFullWidth && `moon-button-full-width`,
-      className
+      className,
     )}
     {...props}
   />

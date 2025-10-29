@@ -1,26 +1,26 @@
-import type { ExpenseCategory } from "../types";
-import { v4 as uuid } from 'uuid';
+import { supabaseClient } from "../clients/supabaseClient";
+import type { ExpenseClientCategory } from "../types";
 
-export const getServerCategories = async (): Promise<ExpenseCategory[]> => {
-    try {
-        return await localStorage.getItem("expenses_categories")
-            ? await JSON.parse(localStorage.getItem("expenses_categories") as string)
-            : [];
-    } catch (e) {
-        throw new Error(`Error getting categories :: ${e}`);
-    }
-}
+export const createCategories = async (
+    categories: ExpenseClientCategory[],
+) => {
+    const { data, error } = await supabaseClient
+        .from("project_categories")
+        .insert(categories)
+        .select()
+        .single();
 
-export const addServerCategory = async (expense: string): Promise<ExpenseCategory[] | undefined> => {
-    const id = uuid();
+    if (error) throw error;
+    return data;
+};
 
-    try {
-        const serverCategories = await getServerCategories();
-        localStorage.setItem("expenses_categories", JSON.stringify([...serverCategories, { name: expense, id }]))
+export const fetchCategories = async (projectId: string) => {
+    const { data, error } = await supabaseClient
+        .from("project_categories")
+        .select("*")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: false });
 
-        return await getServerCategories();
-
-    } catch (e) {
-        throw new Error(`Error adding categories :: ${e}`);
-    }
-}
+    if (error) throw error;
+    return data;
+};
