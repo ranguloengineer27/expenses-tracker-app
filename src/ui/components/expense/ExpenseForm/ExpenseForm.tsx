@@ -3,7 +3,7 @@ import type { Expense, ExpenseClientCategory } from "../../../../api/types";
 import Select from "../../utility-components/Select";
 import Input from "../../utility-components/Input";
 import Button from "../../utility-components/Button";
-import AddCategoryDialog from "../../AddCategoryDialog/AddCategoryDialog";
+import AddCategoryDialog from "../../category/AddCategoryDialog/AddCategoryDialog";
 import { fetchCategories } from "../../../../api/adapters";
 import { useCurrentProject } from "../../../hooks/useCurrentProject";
 import { useQuery } from "@tanstack/react-query";

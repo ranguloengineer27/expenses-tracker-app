@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ProfileContext } from "../../providers/ProfileContext";
-import { ROUTES } from "../../AppRouter";
+import { ROUTES } from "../shared-components/Navigation/AppRouter";
 import { useNavigate } from "react-router-dom";
 import CSS from "./Dashboard.module.scss";
 import { useAuthStore } from "../../stores/useAuthStore";

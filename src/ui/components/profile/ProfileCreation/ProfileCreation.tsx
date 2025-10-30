@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import Input from "../utility-components/Input";
-import { useProfileCreation } from "../../hooks/useProfileCreation";
+import Input from "../../utility-components/Input";
+import { useProfileCreation } from "../../../hooks/useProfileCreation";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../AppRouter";
-import Button from "../utility-components/Button";
-import { ProfileContext } from "../../providers/ProfileContext";
-import { useAuthStore } from "../../stores/useAuthStore";
+import { ROUTES } from "../../shared-components/Navigation/AppRouter";
+import Button from "../../utility-components/Button";
+import { ProfileContext } from "../../../providers/ProfileContext";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 export const ProfileCreation = () => {
     const { user } = useAuthStore();

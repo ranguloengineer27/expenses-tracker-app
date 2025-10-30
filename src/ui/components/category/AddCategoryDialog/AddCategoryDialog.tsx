@@ -1,10 +1,10 @@
 import { useState, type FC } from "react";
-import Button from "../utility-components/Button";
-import Dialog from "../utility-components/Dialog";
-import Input from "../utility-components/Input";
+import Button from "../../utility-components/Button";
+import Dialog from "../../utility-components/Dialog";
+import Input from "../../utility-components/Input";
 import CSS from "./AddCategoryDialog.module.scss";
-import type { ExpenseClientCategory } from "../../../api/types";
-import { useCurrentProject } from "../../hooks/useCurrentProject";
+import type { ExpenseClientCategory } from "../../../../api/types";
+import { useCurrentProject } from "../../../hooks/useCurrentProject";
 
 type Props = {
     addServerCategory: (newCategory: ExpenseClientCategory[]) => void;

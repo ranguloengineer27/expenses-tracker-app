@@ -1,8 +1,13 @@
 import type { ComponentType } from "react";
 import Loader from "../components/utility-components/Loader";
 
-export const withLoader = <P extends object>(Component: ComponentType<P>) => {
-    return ({ isLoading, ...props }: P & { isLoading: boolean }) => {
-        return isLoading ? <Loader /> : <Component {...(props as P)} />;
+export function withLoader<P extends object>(Component: ComponentType<P>) {
+    const WrappedComponent = ({ isLoading, ...props }: P & { isLoading: boolean }) => {
+        if (isLoading) return <Loader />;
+        return <Component {...(props as P)} />;
     };
-};
+
+    WrappedComponent.displayName = `withLoader(${Component.displayName || Component.name || "Component"})`;
+
+    return WrappedComponent;
+}

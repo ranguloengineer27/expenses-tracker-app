@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getProjectById } from "../../../api/adapters/project";
-import { withLoader } from "../../HOC/withLoader";
+import { getProjectById } from "../../../../api/adapters/project";
+import { withLoader } from "../../../HOC/withLoader";
 import { useEffect, type FC } from "react";
-import ExpensesAdding from "../expense/ExpensesAdding/ExpensesAdding";
-import { useProjectStore } from "../../stores/useProjectStore";
+import ExpensesAdding from "../../expense/ExpensesAdding/ExpensesAdding";
+import { useProjectStore } from "../../../stores/useProjectStore";
 
 type ProjectTitleComponentProps = {
     name: string;
