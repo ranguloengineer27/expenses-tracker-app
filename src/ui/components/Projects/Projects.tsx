@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useProjects } from "../../hooks/useProjects";
-import Input from "../Input";
-import Button from "../Button";
-import List from "../List";
+import Input from "../utility-components/Input";
+import Button from "../utility-components/Button";
+import List from "../utility-components/List";
 import { Link } from "react-router-dom";
 
 const Projects = () => {

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useRef } from "react";
 import { createPortal } from "react-dom";
-import CloseIcon from "../assets/icons/Close";
-import mergeClasses from "../helpers/mergeClasses";
+import CloseIcon from "../../assets/icons/Close";
+import mergeClasses from "./helpers/mergeClasses";
 
 type DialogContextType = {
   dialogRef: React.RefObject<HTMLDialogElement | null> | null;

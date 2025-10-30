@@ -1,14 +1,14 @@
 import { useState } from "react";
-import type { Expense } from "../../api/types";
-import Button from "../components/Button";
-import ExpenseForm from "../components/ExpenseForm/ExpenseForm";
-import AddInvoiceFile from "../components/AddInvoiceFile/AddInvoiceFile";
-import ExpenseList from "../components/ExpenseList/ExpenseList";
-import { fetchExpensesByProjectId } from "../../api/adapters";
+import type { Expense } from "../../../../api/types";
+import Button from "../../utility-components/Button";
+import ExpenseForm from "../ExpenseForm/ExpenseForm";
+import AddInvoiceFile from "../../invoice/AddInvoiceFile/AddInvoiceFile";
+import ExpenseList from "../ExpenseList/ExpenseList";
+import { fetchExpensesByProjectId } from "../../../../api/adapters";
 import { useQuery } from "@tanstack/react-query";
-import { useCurrentProject } from "../hooks/useCurrentProject";
-import { withLoader } from "../HOC/withLoader";
-import { useAddExpenses } from "../hooks/useAddExpenses";
+import { useCurrentProject } from "../../../hooks/useCurrentProject";
+import { withLoader } from "../../../HOC/withLoader";
+import { useAddExpenses } from "../../../hooks/useAddExpenses";
 
 const Tabs = {
     manual: "manual",
@@ -39,14 +39,14 @@ const ExpensesAdding = () => {
                 <div className="min-h-11">
                     {tab === Tabs.manual ? (
                         <ExpenseForm
-                            onAddExpense={async (expense: Expense) => {
+                            onAddExpense={async (expense: Omit<Expense, "id">) => {
                                 addExpenses([expense])
                             }}
                         />
                     ) : (
                         <div className="transform-y-3">
                             <AddInvoiceFile
-                                onAddExpense={async (expenses: Expense[]) => {
+                                onAddExpense={async (expenses: Array<Omit<Expense, "id">>) => {
                                     addExpenses(expenses)
                                 }}
                             />
@@ -56,19 +56,6 @@ const ExpensesAdding = () => {
                 <ExpenseListComponent
                     isLoading={loadingExpenses}
                     expenses={expenses}
-                    updateExpensesList={(id: string, newData: Expense) => {
-                        /* const expenseIndex = expensesCollection.findIndex(
-                            (expense) => expense.id === id,
-                        );
-                        const newList = [...expensesCollection];
-
-                        newList[expenseIndex] = {
-                            ...newList[expenseIndex],
-                            ...newData,
-                        }; */
-
-                        //setExpenses(newList);
-                    }}
                 />
             </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import mergeClasses from "../helpers/mergeClasses";
-import type { Sizes } from "../types";
+import mergeClasses from "./helpers/mergeClasses";
+import type { Sizes } from "./types/types";
 
 export type TabListSizes = Extract<Sizes, "sm" | "md">;
 

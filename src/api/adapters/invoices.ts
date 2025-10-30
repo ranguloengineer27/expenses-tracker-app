@@ -4,7 +4,7 @@ export const extractInvoiceData = async (
     file: File,
     userId: string,
     projectId: string
-): Promise<Expense[]> => {
+): Promise<Array<Omit<Expense, "id">>> => {
     const formData = new FormData();
     formData.append("file", file);
 
@@ -19,7 +19,7 @@ export const extractInvoiceData = async (
 
     const data: ServerInvoice = await resp.json();
 
-    const products: Expense[] = data.line_items.map((product) => ({
+    const products: Array<Omit<Expense, "id">> = data.line_items.map((product) => ({
         description: product.full_description,
         amount: product.total,
         user_id: userId,

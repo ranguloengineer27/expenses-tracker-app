@@ -1,17 +1,17 @@
 import { useState } from "react";
-import type { Expense, ExpenseClientCategory } from "../../../api/types";
-import Select from "../Select";
-import Input from "../Input";
-import Button from "../Button";
-import AddCategoryDialog from "../AddCategoryDialog/AddCategoryDialog";
-import { fetchCategories } from "../../../api/adapters";
-import { useCurrentProject } from "../../hooks/useCurrentProject";
+import type { Expense, ExpenseClientCategory } from "../../../../api/types";
+import Select from "../../utility-components/Select";
+import Input from "../../utility-components/Input";
+import Button from "../../utility-components/Button";
+import AddCategoryDialog from "../../AddCategoryDialog/AddCategoryDialog";
+import { fetchCategories } from "../../../../api/adapters";
+import { useCurrentProject } from "../../../hooks/useCurrentProject";
 import { useQuery } from "@tanstack/react-query";
-import { useCreateCategories } from "../../hooks/useCategoriesCreation";
-import { useAuth } from "../../hooks/useAuth";
+import { useCreateCategories } from "../../../hooks/useCategoriesCreation";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 type ExpenseFormProps = {
-  onAddExpense: (expense: Expense) => void;
+  onAddExpense: (expense: Omit<Expense, "id">) => void;
 };
 
 const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
@@ -20,10 +20,9 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
   const [amount, setAmount] = useState("");
   const [categoryId, setCategoryId] = useState<string>("");
   const projectId = project?.id!;
-  const { mutate: addCategories, isPending } = useCreateCategories(projectId);
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const userId = user?.id;
-
+  const { mutate: addCategories, isPending } = useCreateCategories(projectId);
 
   const { data: categoriesData } = useQuery({
     queryKey: ['categories', projectId],

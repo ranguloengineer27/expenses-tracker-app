@@ -2,11 +2,11 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { supabaseClient } from "../../api/clients/supabaseClient";
 import type { Project } from "../../api/types/project";
 import { fetchProjects } from "../../api/adapters/project";
-import { useAuth } from "./useAuth";
 import { queryClient } from "../../api/clients/queryClient";
+import { useAuthStore } from "../stores/useAuthStore";
 
 export const useProjects = () => {
-    const { user } = useAuth();
+    const { user } = useAuthStore();
 
     const {
         data: projects,

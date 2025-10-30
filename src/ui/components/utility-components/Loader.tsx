@@ -1,5 +1,5 @@
-import mergeClasses from "../helpers/mergeClasses";
-import type { Sizes } from "../types";
+import mergeClasses from "./helpers/mergeClasses";
+import type { Sizes } from "./types/types";
 
 export type LoaderSizes = Extract<Sizes, "2xs" | "xs" | "sm" | "md" | "lg">;
 

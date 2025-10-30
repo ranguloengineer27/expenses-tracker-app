@@ -1,6 +1,6 @@
 import React from "react";
-import mergeClasses from "../helpers/mergeClasses";
 import type { Sizes, Variants } from "./types/types";
+import mergeClasses from "./helpers/mergeClasses";
 
 export type SelectSizes = Extract<Sizes, "sm" | "md" | "lg" | "xl">;
 

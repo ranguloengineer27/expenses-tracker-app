@@ -1,7 +1,7 @@
 import { useState, type FC } from "react";
-import Button from "../Button";
-import Dialog from "../Dialog";
-import Input from "../Input";
+import Button from "../utility-components/Button";
+import Dialog from "../utility-components/Dialog";
+import Input from "../utility-components/Input";
 import CSS from "./AddCategoryDialog.module.scss";
 import type { ExpenseClientCategory } from "../../../api/types";
 import { useCurrentProject } from "../../hooks/useCurrentProject";

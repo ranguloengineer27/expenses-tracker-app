@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import Dialog from "../components/Dialog";
+import Input from "../components/utility-components/Input";
+import Button from "../components/utility-components/Button";
+import Dialog from "../components/utility-components/Dialog";
+import { useAuthStore } from "../stores/useAuthStore";
 
 const ConfirmEmailDialog = () => {
   return (
@@ -13,7 +13,7 @@ const ConfirmEmailDialog = () => {
 };
 
 export const Login = () => {
-  const { signIn } = useAuth();
+  const { signIn } = useAuthStore();
   const [email, setEmail] = useState("");
   const [showModal, setShowModal] = useState(false);
 

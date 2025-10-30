@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import Input from "../Input";
+import Input from "../utility-components/Input";
 import { useProfileCreation } from "../../hooks/useProfileCreation";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../AppRouter";
-import Button from "../Button";
+import Button from "../utility-components/Button";
 import { ProfileContext } from "../../providers/ProfileContext";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 export const ProfileCreation = () => {
-    const { user } = useAuth();
+    const { user } = useAuthStore();
     const { profile } = useContext(ProfileContext);
 
     const createProfile = useProfileCreation();

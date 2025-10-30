@@ -20,7 +20,7 @@ export const fetchExpensesByProjectId = async (
     }
 };
 
-export const addExpenseToProject = async (expenses: Expense[]) => {
+export const addExpenseToProject = async (expenses: Array<Omit<Expense, "id">>) => {
     try {
         const { data, error } = await supabaseClient
             .from("expenses")
@@ -32,5 +32,35 @@ export const addExpenseToProject = async (expenses: Expense[]) => {
     } catch (error) {
         console.error("Error adding expense:", error);
         throw new Error("Could not add expense");
+    }
+};
+
+export const updateExpense = async (expenseId: string, updates: Partial<Expense>) => {
+    try {
+        const { data, error } = await supabaseClient
+            .from("expenses")
+            .update(updates)
+            .eq("id", expenseId)
+            .select();
+
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error("Error updating expense:", error);
+        throw new Error("Could not update expense");
+    }
+};
+
+export const deleteExpenses = async (expenseIds: string[]) => {
+    try {
+        const { error } = await supabaseClient
+            .from("expenses")
+            .delete()
+            .in("id", expenseIds);
+
+        if (error) throw error;
+    } catch (error) {
+        console.error("Error deleting expenses:", error);
+        throw new Error("Could not delete expenses");
     }
 };

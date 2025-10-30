@@ -1,17 +1,17 @@
 import { useState, type FC } from "react";
-import { extractInvoiceData } from "../../../api/adapters/invoices";
-import Button from "../Button";
-import Input from "../Input";
-import type { Expense } from "../../../api/types";
-import { useAuth } from "../../hooks/useAuth";
-import { useCurrentProject } from "../../hooks/useCurrentProject";
+import { extractInvoiceData } from "../../../../api/adapters/invoices";
+import Button from "../../utility-components/Button";
+import Input from "../../utility-components/Input";
+import type { Expense } from "../../../../api/types";
+import { useCurrentProject } from "../../../hooks/useCurrentProject";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 type Props = {
-    onAddExpense: (expense: Expense[]) => Promise<void>;
+    onAddExpense: (expense: Array<Omit<Expense, "id">>) => Promise<void>;
 };
 
 const AddInvoiceFile: FC<Props> = ({ onAddExpense }) => {
-    const { user } = useAuth();
+    const { user } = useAuthStore();
     const project = useCurrentProject();
     const projectId = project?.id!;
     const userId = user?.id!;
