@@ -6,7 +6,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "../../utility-components/select";
+} from "../../utility-components/Select";
 import { cn } from "../../utility-components/helpers/utils";
 
 type CategoriesSelectProps = {
