@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "../../utility-components/dialog";
+} from "../../utility-components/Dialog";
 import { CategoriesSelect as ParentCategoriesSelect } from "../CategoriesSelect/CategoriesSelect";
 import { useCreateCategories } from "../../../hooks/useCategoriesCreation";
 

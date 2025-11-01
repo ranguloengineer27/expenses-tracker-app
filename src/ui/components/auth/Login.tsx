@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent } from "../utility-components/dialog";
+import { Dialog, DialogContent } from "../utility-components/Dialog";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { Button } from "../utility-components/button";
 import { Input } from "../utility-components/input";
