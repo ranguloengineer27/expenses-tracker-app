@@ -3,7 +3,7 @@ import type { Expense } from "../../../../api/types";
 import ExpenseForm from "../ExpenseForm/ExpenseForm";
 import AddInvoiceFile from "../../invoice/AddInvoiceFile/AddInvoiceFile";
 import { useAddExpenses } from "../../../hooks/useAddExpenses";
-import { Button } from "../../utility-components/button";
+import { Button } from "../../utility-components/Button";
 
 const Tabs = {
     manual: "manual",

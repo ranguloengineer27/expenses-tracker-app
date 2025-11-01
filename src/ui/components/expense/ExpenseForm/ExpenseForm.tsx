@@ -1,10 +1,10 @@
 import { useState } from "react";
 import type { Expense } from "../../../../api/types";
-import { Input } from "../../utility-components/input";
+import { Input } from "../../utility-components/Input";
 import AddCategoryDialog from "../../category/AddCategoryDialog/AddCategoryDialog";
 import { useCurrentProject } from "../../../hooks/useCurrentProject";
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { Button } from "../../utility-components/button";
+import { Button } from "../../utility-components/Button";
 import { CategoriesSelect } from "../../category/CategoriesSelect/CategoriesSelect";
 
 type ExpenseFormProps = {

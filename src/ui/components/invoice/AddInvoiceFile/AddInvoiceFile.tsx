@@ -1,10 +1,10 @@
 import { memo, useCallback, useState, type ChangeEvent, type FC } from "react";
 import { extractInvoiceData } from "../../../../api/adapters/invoices";
-import { Input } from "../../utility-components/input";
+import { Input } from "../../utility-components/Input";
 import type { Expense } from "../../../../api/types";
 import { useCurrentProject } from "../../../hooks/useCurrentProject";
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { Button } from "../../utility-components/button";
+import { Button } from "../../utility-components/Button";
 import { isMobileDevice } from "../../../helpers/isMobileDevice";
 
 const InputMemoized = memo(Input);

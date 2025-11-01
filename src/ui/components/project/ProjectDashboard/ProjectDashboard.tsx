@@ -8,7 +8,7 @@ import { useProjectStore } from "../../../stores/useProjectStore";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import ExpenseList from "../../expense/ExpenseList/ExpenseList";
 /* import { ExpenseLogsList } from "../../log/Logs"; */
-import { Button } from "../../utility-components/button";
+import { Button } from "../../utility-components/Button";
 
 type ProjectTitleComponentProps = {
     name: string;

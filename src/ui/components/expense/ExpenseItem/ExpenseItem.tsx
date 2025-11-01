@@ -1,8 +1,8 @@
 import { useState, type FC } from "react";
 import type { Expense } from "../../../../api/types";
-import { Input } from "../../utility-components/input";
-import { Button } from "../../utility-components/button";
-import { TableCell, TableRow } from "../../utility-components/table";
+import { Input } from "../../utility-components/Input";
+import { Button } from "../../utility-components/Button";
+import { TableCell, TableRow } from "../../utility-components/Table";
 
 type ExpenseListItemProps = {
   id?: string;

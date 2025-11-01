@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useProjects } from "../../hooks/useProjects";
-import { Input } from "../utility-components/input";
+import { Input } from "../utility-components/Input";
 import { Link } from "react-router-dom";
-import { Button } from "../utility-components/button";
-import { Table, TableCell, TableRow } from "../utility-components/table";
+import { Button } from "../utility-components/Button";
+import { Table, TableCell, TableRow } from "../utility-components/Table";
 
 const Projects = () => {
     const { projects, isLoading, createProject, deleteProject } = useProjects();

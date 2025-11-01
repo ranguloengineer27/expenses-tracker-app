@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Dialog, DialogContent } from "../utility-components/Dialog";
 import { useAuthStore } from "../../stores/useAuthStore";
-import { Button } from "../utility-components/button";
-import { Input } from "../utility-components/input";
+import { Button } from "../utility-components/Button";
+import { Input } from "../utility-components/Input";
 
 const ConfirmEmailDialog = () => {
   return (

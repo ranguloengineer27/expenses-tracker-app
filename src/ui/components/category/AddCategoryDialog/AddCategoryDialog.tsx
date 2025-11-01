@@ -1,7 +1,7 @@
 import { useState, type FC } from "react";
-import { Input } from "../../utility-components/input";
+import { Input } from "../../utility-components/Input";
 import { useCurrentProject } from "../../../hooks/useCurrentProject";
-import { Button } from "../../utility-components/button";
+import { Button } from "../../utility-components/Button";
 import {
     Dialog,
     DialogContent,
