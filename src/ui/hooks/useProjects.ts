@@ -6,32 +6,32 @@ import { queryClient } from "../../api/clients/queryClient";
 import { useAuthStore } from "../stores/useAuthStore";
 
 export const useProjects = () => {
-    const { user } = useAuthStore();
+  const { user } = useAuthStore();
 
-    const {
-        data: projects,
-        isLoading,
-        error,
-    } = useQuery<Project[], Error>({
-        queryKey: ["projects"],
-        queryFn: () => fetchProjects(user?.id ?? ""),
-    });
+  const {
+    data: projects,
+    isLoading,
+    error,
+  } = useQuery<Project[], Error>({
+    queryKey: ["projects"],
+    queryFn: () => fetchProjects(user?.id ?? ""),
+  });
 
-    const createProject = useMutation({
-        mutationFn: async (name: string) => {
-            const userId = user?.id;
+  const createProject = useMutation({
+    mutationFn: async (name: string) => {
+      const userId = user?.id;
 
-            const { data, error } = await supabaseClient.from("projects").insert({
-                name,
-                owner_id: userId,
-            });
+      const { data, error } = await supabaseClient.from("projects").insert({
+        name,
+        owner_id: userId,
+      });
 
-            if (error) throw error;
-            return data;
-        },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
-    });
-    /* const fetchProjectById = async (projectId: string) => {
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+  });
+  /* const fetchProjectById = async (projectId: string) => {
         const { data, error } = await supabaseClient
             .from('projects')
             .select('*')
@@ -53,18 +53,18 @@ export const useProjects = () => {
         return data
     } */
 
-    const deleteProject = useMutation({
-        mutationFn: async (projectId: string) => {
-            const { data, error } = await supabaseClient
-                .from("projects")
-                .delete()
-                .eq("id", projectId);
+  const deleteProject = useMutation({
+    mutationFn: async (projectId: string) => {
+      const { data, error } = await supabaseClient
+        .from("projects")
+        .delete()
+        .eq("id", projectId);
 
-            if (error) throw error;
-            return data;
-        },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
-    });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+  });
 
-    return { projects, isLoading, error, createProject, deleteProject };
+  return { projects, isLoading, error, createProject, deleteProject };
 };

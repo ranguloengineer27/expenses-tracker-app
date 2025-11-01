@@ -1,8 +1,8 @@
 import { useState, type FC } from "react";
 import type { Expense } from "../../../../api/types";
-import List from "../../utility-components/List";
-import Input from "../../utility-components/Input";
-import Button from "../../utility-components/Button";
+import { Input } from "../../utility-components/input";
+import { Button } from "../../utility-components/button";
+import { TableCell, TableRow } from "../../utility-components/table";
 
 type ExpenseListItemProps = {
   id?: string;
@@ -21,19 +21,14 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
   updateExpensesList,
   deleteExpense,
   projectId,
-  userId
+  userId,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newAmount, setNewAmount] = useState<number | null>(null);
-  /* const project = useCurrentProject();
-  const { user } = useAuthStore(); */
 
   return (
-    <List.Item
-      className="flex w-100 justify-content-between position-relative"
-      key={id}
-    >
+    <TableRow>
       {isEdit ? (
         <p className="position-absolute w-100 gap-1 flex">
           <Input
@@ -49,47 +44,51 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
               setNewAmount(Number(e.target.value));
             }}
           />
-          {<Button onClick={() => {
-            setIsEdit(false);
+          {
+            <Button
+              onClick={() => {
+                setIsEdit(false);
 
-            const payload = {
-              description: newTitle ? newTitle : title,
-              amount: newAmount ? newAmount : amount,
-              project_id: projectId,
-              user_id: userId
-            }
+                const payload = {
+                  description: newTitle ? newTitle : title,
+                  amount: newAmount ? newAmount : amount,
+                  project_id: projectId,
+                  user_id: userId,
+                };
 
-            console.log('PAYLOAD :::', payload)
-            console.log('EXPENSE ID :::', id)
-
-
-            updateExpensesList(
-              id!,
-              payload
-            )
-          }}>Send</Button>}
+                updateExpensesList(id!, payload);
+              }}
+            >
+              Send
+            </Button>
+          }
         </p>
       ) : (
         <>
-          <span>
-            {title}: ${amount?.toFixed(2)}
-          </span>
-          <span className="flex justify-content-between w-10">
-            <span
-              className="cursor-pointer"
+          <TableCell>{title}</TableCell>
+          <TableCell>{amount?.toFixed(2)}</TableCell>
+          <TableCell>
+            <Button
               onClick={() => {
                 setIsEdit(true);
               }}
+              className="mr-1"
             >
               Edit
-            </span>
-            <span className="cursor-pointer" onClick={() => {
-              deleteExpense(id!);
-            }}>Delete</span>
-          </span>
+            </Button>
+            <Button
+              variant={"destructive"}
+              className="ml-1"
+              onClick={() => {
+                deleteExpense(id!);
+              }}
+            >
+              Delete
+            </Button>
+          </TableCell>
         </>
       )}
-    </List.Item>
+    </TableRow>
   );
 };
 

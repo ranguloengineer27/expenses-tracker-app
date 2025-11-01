@@ -1,14 +1,11 @@
 import { useState } from "react";
-import type { Expense, ExpenseClientCategory } from "../../../../api/types";
-import Select from "../../utility-components/Select";
-import Input from "../../utility-components/Input";
-import Button from "../../utility-components/Button";
+import type { Expense } from "../../../../api/types";
+import { Input } from "../../utility-components/input";
 import AddCategoryDialog from "../../category/AddCategoryDialog/AddCategoryDialog";
-import { fetchCategories } from "../../../../api/adapters";
 import { useCurrentProject } from "../../../hooks/useCurrentProject";
-import { useQuery } from "@tanstack/react-query";
-import { useCreateCategories } from "../../../hooks/useCategoriesCreation";
 import { useAuthStore } from "../../../stores/useAuthStore";
+import { Button } from "../../utility-components/button";
+import { CategoriesSelect } from "../../category/CategoriesSelect/CategoriesSelect";
 
 type ExpenseFormProps = {
   onAddExpense: (expense: Omit<Expense, "id">) => void;
@@ -18,17 +15,10 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
   const project = useCurrentProject();
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [categoryId, setCategoryId] = useState<string>("");
   const projectId = project?.id!;
   const { user } = useAuthStore();
   const userId = user?.id;
-  const { mutate: addCategories, isPending } = useCreateCategories(projectId);
-
-  const { data: categoriesData } = useQuery({
-    queryKey: ['categories', projectId],
-    queryFn: () => fetchCategories(projectId),
-    enabled: !!projectId,
-  });
+  const [categoryId, setCategoryId] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +29,8 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
       description: title,
       amount: parseFloat(amount),
       category_id: categoryId,
-      project_id: project?.id ?? '',
-      user_id: userId as string
+      project_id: project?.id ?? "",
+      user_id: userId as string,
     });
     setTitle("");
     setAmount("");
@@ -63,37 +53,22 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
         />
       </div>
       <div className="mt-1 flex gap-1">
-        <div className="pt-10 w-30">
-          {categoriesData?.length ? (
-            <>
-              <Select
-                aria-placeholder="Select Category"
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-                required
-              >
-                <Select.Option value="" disabled hidden>
-                  Select an option...
-                </Select.Option>
-                {categoriesData.map((category) => (
-                  <Select.Option key={category.id} value={category.id}>
-                    {category.name}
-                  </Select.Option>
-                ))}
-              </Select>
-            </>
-          ) : null}
-        </div>
-
-        <AddCategoryDialog
-          addServerCategory={async (newCats: ExpenseClientCategory[]) => {
-            addCategories(newCats);
-          }}
+        <CategoriesSelect
+          className="mt-3"
+          projectId={projectId}
+          categoryId={categoryId}
+          setCategoryId={(value: string) => setCategoryId(value)}
+          placeholder="Select categories"
         />
+
+        <AddCategoryDialog />
       </div>
-      <Button type="submit" className="mt-1">
-        Add expense
-      </Button>
+      <hr className="mt-9" />
+      <div className="flex mt-3">
+        <Button type="submit" className="mt-1">
+          Add expense
+        </Button>
+      </div>
     </form>
   );
 };

@@ -1,62 +1,53 @@
 import { useState } from "react";
 import type { Expense } from "../../../../api/types";
-import Button from "../../utility-components/Button";
 import ExpenseForm from "../ExpenseForm/ExpenseForm";
 import AddInvoiceFile from "../../invoice/AddInvoiceFile/AddInvoiceFile";
-import ExpenseList from "../ExpenseList/ExpenseList";
-import { fetchExpensesByProjectId } from "../../../../api/adapters";
-import { useQuery } from "@tanstack/react-query";
-import { useCurrentProject } from "../../../hooks/useCurrentProject";
-import { withLoader } from "../../../HOC/withLoader";
 import { useAddExpenses } from "../../../hooks/useAddExpenses";
+import { Button } from "../../utility-components/button";
 
 const Tabs = {
     manual: "manual",
     file: "file",
 } as const;
 
-const ExpenseListComponent = withLoader(ExpenseList);
-
 const ExpensesAdding = () => {
-    const projectId = useCurrentProject()?.id!;
-    const { data: expenses = [], isLoading: loadingExpenses } = useQuery<
-        Expense[]
-    >({
-        queryKey: ["expenses", projectId!],
-        queryFn: () => fetchExpensesByProjectId(projectId!),
-        enabled: !!projectId,
-    });
     const [tab, setTab] = useState<keyof typeof Tabs>(Tabs.manual);
     const { mutate: addExpenses, isPending } = useAddExpenses();
 
     return (
-        <div className="w-100">
+        <div className="w-full">
             <div>
                 <div>
-                    <Button onClick={() => setTab(Tabs.manual)}>Add it mannually</Button>
-                    <Button onClick={() => setTab(Tabs.file)}>Add a file</Button>
+                    <Button
+                        onClick={() => setTab(Tabs.manual)}
+                        className="mr-2 cursor-pointer"
+                    >
+                        Add it mannually
+                    </Button>
+                    <Button
+                        onClick={() => setTab(Tabs.file)}
+                        className="ml-2 cursor-pointer"
+                    >
+                        Add a file
+                    </Button>
                 </div>
                 <div className="min-h-11">
                     {tab === Tabs.manual ? (
                         <ExpenseForm
                             onAddExpense={async (expense: Omit<Expense, "id">) => {
-                                addExpenses([expense])
+                                addExpenses([expense]);
                             }}
                         />
                     ) : (
                         <div className="transform-y-3">
                             <AddInvoiceFile
                                 onAddExpense={async (expenses: Array<Omit<Expense, "id">>) => {
-                                    addExpenses(expenses)
+                                    addExpenses(expenses);
                                 }}
                             />
                         </div>
                     )}
                 </div>
-                <ExpenseListComponent
-                    isLoading={loadingExpenses}
-                    expenses={expenses}
-                />
             </div>
         </div>
     );

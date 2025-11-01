@@ -3,24 +3,32 @@ import type { Expense } from "../types";
 
 export const fetchExpensesByProjectId = async (
     projectId: string,
-): Promise<Expense[]> => {
+    page: number,
+    limit: number,
+): Promise<{ data: Expense[]; total: number }> => {
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
     try {
-        const { data, error } = await supabaseClient
+        const { data, error, count } = await supabaseClient
             .from("expenses")
-            .select("*")
+            .select("*", { count: "exact" })
             .eq("project_id", projectId)
-            .order("created_at", { ascending: false }); // most recent go first
+            .order("created_at", { ascending: false }) // most recent go first
+            .range(from, to);
 
         if (error) throw error;
 
-        return data;
+        return { data, total: count ?? 0 };
     } catch (error) {
         console.error("Error fetching expenses:", error);
         throw new Error(`Could not fetch expenses for project ${projectId}`);
     }
 };
 
-export const addExpenseToProject = async (expenses: Array<Omit<Expense, "id">>) => {
+export const addExpenseToProject = async (
+    expenses: Array<Omit<Expense, "id">>,
+) => {
     try {
         const { data, error } = await supabaseClient
             .from("expenses")
@@ -35,7 +43,10 @@ export const addExpenseToProject = async (expenses: Array<Omit<Expense, "id">>) 
     }
 };
 
-export const updateExpense = async (expenseId: string, updates: Partial<Expense>) => {
+export const updateExpense = async (
+    expenseId: string,
+    updates: Partial<Expense>,
+) => {
     try {
         const { data, error } = await supabaseClient
             .from("expenses")

@@ -19,49 +19,47 @@ const API_KEY = `apikey ${process.env.API_KEY}`;
 
 // Routes
 app.post(
-    "/api/readReceipt",
-    upload.single("file"),
-    async (req: Request, res: Response) => {
-        try {
-            const file = req.file;
+  "/api/readReceipt",
+  upload.single("file"),
+  async (req: Request, res: Response) => {
+    try {
+      const file = req.file;
 
-            if (!file) {
-                return res.status(400).json({ error: "No file provided" });
-            }
+      if (!file) {
+        return res.status(400).json({ error: "No file provided" });
+      }
 
-            const formData = new FormData();
-            formData.append("file", file.buffer, file.originalname);
+      const formData = new FormData();
+      formData.append("file", file.buffer, file.originalname);
 
-            const resp = await fetch(
-                "https://api.veryfi.com/api/v8/partner/documents",
-                {
-                    method: "POST",
-                    headers: {
-                        "CLIENT-ID": process.env.CLIENT_ID!,
-                        AUTHORIZATION: API_KEY,
-                        Accept: "application/json",
-                    },
-                    body: formData as any,
-                },
-            );
+      const resp = await fetch(
+        "https://api.veryfi.com/api/v8/partner/documents",
+        {
+          method: "POST",
+          headers: {
+            "CLIENT-ID": process.env.CLIENT_ID!,
+            AUTHORIZATION: API_KEY,
+            Accept: "application/json",
+          },
+          body: formData as any,
+        },
+      );
 
-            if (!resp.ok) {
-                const text = await resp.text();
-                return res.status(resp.status).json({ error: text });
-            }
+      if (!resp.ok) {
+        const text = await resp.text();
+        return res.status(resp.status).json({ error: text });
+      }
 
-            console.log('response ::::', resp)
-
-            const json = await resp.json();
-            return res.json(json);
-        } catch (error: any) {
-            console.error(error);
-            return res.status(500).json({ error: error.message || "Server error" });
-        }
-    },
+      const json = await resp.json();
+      return res.json(json);
+    } catch (error: any) {
+      console.error(error);
+      return res.status(500).json({ error: error.message || "Server error" });
+    }
+  },
 );
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

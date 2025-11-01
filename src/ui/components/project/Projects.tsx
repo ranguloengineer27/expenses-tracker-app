@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useProjects } from "../../hooks/useProjects";
-import Input from "../utility-components/Input";
-import Button from "../utility-components/Button";
-import List from "../utility-components/List";
+import { Input } from "../utility-components/input";
 import { Link } from "react-router-dom";
+import { Button } from "../utility-components/button";
+import { Table, TableCell, TableRow } from "../utility-components/table";
 
 const Projects = () => {
     const { projects, isLoading, createProject, deleteProject } = useProjects();
@@ -13,38 +13,42 @@ const Projects = () => {
 
     return (
         <div>
-            <Input
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="New Project Name"
-            />
-            <Button
-                onClick={() => {
-                    createProject.mutate(newName);
-                    setNewName("");
-                }}
-            >
-                Create
-            </Button>
+            <div className="w-3/5">
+                <h1 className="mb-5">You can manage your projects here</h1>
+                <Input
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    placeholder="New Project Name"
+                />
+                <Button
+                    className="mt-2"
+                    onClick={() => {
+                        createProject.mutate(newName);
+                        setNewName("");
+                    }}
+                >
+                    Create
+                </Button>
 
-            <List>
-                {projects?.map((project) => (
-                    <List.Item key={project.id} className="justify-content-between">
-                        <Link
-                            to={`/dashboard/${project.id}`}
-                        >
-                            {project.name}
-                        </Link>
-                        <span
-                            onClick={() => {
-                                deleteProject.mutate(project.id);
-                            }}
-                        >
-                            Delete
-                        </span>
-                    </List.Item>
-                ))}
-            </List>
+                <Table className="mt-6">
+                    {projects?.map((project) => (
+                        <TableRow key={project.id} className="justify-content-between">
+                            <TableCell>
+                                <Link to={`/dashboard/${project.id}`}>{project.name}</Link>
+                            </TableCell>
+                            <TableCell>
+                                <span
+                                    onClick={() => {
+                                        deleteProject.mutate(project.id);
+                                    }}
+                                >
+                                    Delete
+                                </span>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </Table>
+            </div>
         </div>
     );
 };

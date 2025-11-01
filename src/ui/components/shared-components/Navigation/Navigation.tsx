@@ -3,10 +3,13 @@ import { ROUTES } from "./AppRouter";
 
 export const Navigation = () => {
   return (
-    <ul className="w-30 flex justify-content-around margin-inline-auto">
-      <Link to={ROUTES.projects}>Projects</Link>
-      <Link to={ROUTES.dashboard}>Dashboard</Link>
-      <Link to={ROUTES.logs}>Logs</Link>
+    <ul className="w-30 justify-content-around">
+      <Link to={ROUTES.projects} className="block">
+        Projects
+      </Link>
+      <Link to={ROUTES.dashboard} className="block mt-2">
+        Dashboard
+      </Link>
     </ul>
   );
 };

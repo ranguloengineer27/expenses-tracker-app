@@ -1,13 +1,13 @@
 import { useState } from "react";
-import Input from "../utility-components/Input";
-import Button from "../utility-components/Button";
-import Dialog from "../utility-components/Dialog";
+import { Dialog, DialogContent } from "../utility-components/dialog";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { Button } from "../utility-components/button";
+import { Input } from "../utility-components/input";
 
 const ConfirmEmailDialog = () => {
   return (
     <Dialog>
-      <Dialog.Content>Please check your email</Dialog.Content>
+      <DialogContent>Please check your email</DialogContent>
     </Dialog>
   );
 };
@@ -23,7 +23,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="w-50 flex flex-column">
+    <div className="w-1/2 mx-auto">
       {showModal && <ConfirmEmailDialog />}
       <h1>Please enter your email to sign in</h1>
       <Input
@@ -31,6 +31,7 @@ export const Login = () => {
         placeholder="Enter your email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        className="mt-3 mb-3"
       />
       <Button onClick={handleLogin}>Sign In</Button>
     </div>
