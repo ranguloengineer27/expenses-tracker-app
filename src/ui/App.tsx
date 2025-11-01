@@ -23,7 +23,7 @@ function App() {
   return user ? (
     <>
       <BrowserRouter>
-        <MainContainer />
+        <AppRouter />
       </BrowserRouter>
     </>
   ) : (

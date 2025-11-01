@@ -7,9 +7,6 @@ export const Navigation = () => {
       <Link to={ROUTES.projects} className="block">
         Projects
       </Link>
-      <Link to={ROUTES.dashboard} className="block mt-2">
-        Dashboard
-      </Link>
     </ul>
   );
 };
