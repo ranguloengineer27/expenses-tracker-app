@@ -24,7 +24,7 @@ export const Pagination = ({
     };
 
     return (
-        <div className="mt-1">
+        <div className="mt-5 w-[75%] flex justify-center">
             <Button
                 variant="ghost"
                 disabled={currentPage === 1}

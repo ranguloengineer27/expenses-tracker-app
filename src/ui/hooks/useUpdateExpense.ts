@@ -4,16 +4,16 @@ import { updateExpense } from "../../api/adapters";
 import { queryClient } from "../../api/clients/queryClient";
 
 export const useUpdateExpense = () => {
-  return useMutation({
-    mutationFn: ({
-      expenseId,
-      updates,
-    }: {
-      expenseId: string;
-      updates: Partial<Expense>;
-    }) => updateExpense(expenseId, updates),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["expenses", "expenseLogs"] });
-    },
-  });
+    return useMutation({
+        mutationFn: ({
+            expenseId,
+            updates,
+        }: {
+            expenseId: string;
+            updates: Partial<Expense>;
+        }) => updateExpense(expenseId, updates),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["expenses"] });
+        },
+    });
 };

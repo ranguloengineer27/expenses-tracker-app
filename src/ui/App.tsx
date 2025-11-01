@@ -1,4 +1,3 @@
-import "./_globals.scss";
 import { Login } from "./components/auth/Login";
 import AppRouter from "./components/shared-components/Navigation/AppRouter";
 import { Navigation } from "./components/shared-components/Navigation/Navigation";
