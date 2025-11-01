@@ -3,7 +3,7 @@ import { useProjects } from "../../hooks/useProjects";
 import { Input } from "../utility-components/Input";
 import { Link } from "react-router-dom";
 import { Button } from "../utility-components/Button";
-import { Table, TableCell, TableRow } from "../utility-components/Table";
+import { Table, TableCell, TableRow } from "../utility-components/table";
 
 const Projects = () => {
     const { projects, isLoading, createProject, deleteProject } = useProjects();
