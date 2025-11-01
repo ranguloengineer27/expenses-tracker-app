@@ -1,4 +1,5 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import type { Request, Response } from "express";
 import cors from "cors";
 import multer from "multer";
 import fetch from "node-fetch";
@@ -51,6 +52,9 @@ app.post(
       }
 
       const json = await resp.json();
+
+      console.log('JSON :::', json)
+
       return res.json(json);
     } catch (error: any) {
       console.error(error);

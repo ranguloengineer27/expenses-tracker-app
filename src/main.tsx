@@ -1,7 +1,5 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "../dist/moon-core.css";
-import "../dist/moon-components.css";
 import "./ui/index.css";
 import "./ui/App.css";
 import App from "./ui/App.tsx";
