@@ -7,7 +7,7 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 import ExpenseListItem from "../ExpenseItem/ExpenseItem";
 import { fetchExpensesByProjectId } from "../../../../api/adapters";
 import Loader from "../../utility-components/Loader";
-import { Table, TableBody } from "../../utility-components/Table";
+import { Table, TableBody } from "../../utility-components/table";
 import { useState } from "react";
 import { Pagination } from "../../utility-components/Pagination";
 
@@ -34,8 +34,6 @@ const ExpenseList: React.FC = () => {
 
   if (loadingExpenses) return <Loader />;
   if (!expenses?.data?.length) return <div>There's no expenses</div>;
-
-  console.log("expenses ::", expenses);
 
   const pagesNumber = Math.ceil(expenses.total / MAX_ITEMS_BY_PAGE);
 
