@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
-import { ROUTES } from "./AppRouter";
+import { Button } from "../../utility-components/Button";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 export const Navigation = () => {
+  const { signOut } = useAuthStore();
   return (
     <ul className="w-30 justify-content-around">
-      <Link to={ROUTES.projects} className="block">
-        Projects
-      </Link>
+      <Button onClick={signOut}>Logout</Button>
     </ul>
   );
 };

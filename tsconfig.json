@@ -12,7 +12,12 @@
     "erasableSyntaxOnly": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@components/*": [
+        "./src/ui/components/*"
+      ]
     }
   }
 }

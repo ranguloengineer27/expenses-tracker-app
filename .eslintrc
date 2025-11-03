@@ -1,0 +1,23 @@
+{
+    "plugins": [
+        "import"
+    ],
+    "rules": {
+        "import/no-unresolved": "off",
+        "import/no-named-as-default": "off",
+        "import/no-named-as-default-member": "off",
+        "import/no-self-import": "off",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "import/no-cycle": "off",
+        "import/no-absolute-path": "off",
+        "import/no-useless-path-segments": "off",
+        "import/no-deprecated": "off"
+    }
+}

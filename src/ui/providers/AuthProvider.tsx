@@ -3,7 +3,7 @@ import { useAuthStore } from "../stores/useAuthStore";
 import { supabaseClient } from "../../api/clients/supabaseClient";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const setSession = useAuthStore((s) => s.setSession);
+  const { setSession } = useAuthStore();
 
   useEffect(() => {
     supabaseClient.auth.getSession().then(({ data }) => {

@@ -1,0 +1,39 @@
+import { useState } from "react";
+import { useAuthStore } from "../../stores/useAuthStore";
+import { Input } from "../utility-components/Input";
+import { Button } from "../utility-components/Button";
+
+export const SignIn = () => {
+  const { signInWithPassword } = useAuthStore();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSignIn = async () => {
+    try {
+      await signInWithPassword(email, password);
+    } catch (err: any) {
+      setError(err.message ?? "Sign in failed");
+    }
+  };
+
+  return (
+    <div className="w-full mx-auto flex flex-col gap-2">
+      <h1>Sign In</h1>
+      {error && <p className="text-red-500">{error}</p>}
+      <Input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <Input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <Button onClick={handleSignIn}>Sign In</Button>
+    </div>
+  );
+};

@@ -3,43 +3,44 @@ import { useQuery } from "@tanstack/react-query";
 import { fechProfileById } from "../../api/adapters/profile";
 import { useAuthStore } from "../stores/useAuthStore";
 import { useProfileStore } from "../stores/useProfileStore";
+import type { Profile } from "../../api/types/profile";
 
 type ProfileContextType = {
-  profile: any | null;
-  isLoading: boolean;
-  error: Error | null;
+    profile: Profile | null;
+    isLoading: boolean;
+    error: Error | null;
 };
 
 export const ProfileContext = createContext<ProfileContextType>({
-  profile: null,
-  isLoading: false,
-  error: null,
+    profile: null,
+    isLoading: false,
+    error: null,
 });
 
 export const ProfileProvider = ({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) => {
-  const { user } = useAuthStore();
-  const { setProfile } = useProfileStore();
+    const { user } = useAuthStore();
+    const { setProfile } = useProfileStore();
 
-  const { data: profile } = useQuery<any, Error>({
-    queryKey: ["profile", user?.id],
-    queryFn: async () => {
-      if (!user?.id) return null;
-      return await fechProfileById(user.id);
-    },
-    enabled: !!user?.id,
-    retry: 1,
-    staleTime: 1000 * 60 * 5,
-  });
+    const { data: profile } = useQuery<any, Error>({
+        queryKey: ["profile", user?.id],
+        queryFn: async () => {
+            if (!user?.id) return null;
+            return await fechProfileById(user.id);
+        },
+        enabled: !!user?.id,
+        retry: 1,
+        staleTime: 1000 * 60 * 5,
+    });
 
-  useEffect(() => {
-    if (profile) {
-      setProfile(profile);
-    }
-  }, [profile, setProfile]);
+    useEffect(() => {
+        if (profile) {
+            setProfile(profile);
+        }
+    }, [profile, setProfile]);
 
-  return <>{children}</>;
+    return <>{children}</>;
 };

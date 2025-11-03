@@ -1,33 +1,21 @@
-import { Login } from "./components/auth/Login";
-import AppRouter from "./components/shared-components/Navigation/AppRouter";
-import { Navigation } from "./components/shared-components/Navigation/Navigation";
+import { AuthUI } from "./components/auth/AuthUI";
 import { BrowserRouter } from "react-router-dom";
 import { useAuthStore } from "./stores/useAuthStore";
-
-const MainContainer = () => {
-  return (
-    <div className="flex w-full">
-      <div className="w-[15%] text-left">
-        <Navigation />
-      </div>
-      <div className="w-[85%]">
-        <AppRouter />
-      </div>
-    </div>
-  );
-};
+import { isUserAuthenticated } from "./helpers/isUserAuthenticated";
+import { MainContainer } from "./components/MainContainer";
 
 function App() {
   const { user } = useAuthStore();
+  const canUserSeeUI = isUserAuthenticated(user);
 
-  return user ? (
+  return canUserSeeUI ? (
     <>
       <BrowserRouter>
-        <AppRouter />
+        <MainContainer />
       </BrowserRouter>
     </>
   ) : (
-    <Login />
+    <AuthUI />
   );
 }
 
