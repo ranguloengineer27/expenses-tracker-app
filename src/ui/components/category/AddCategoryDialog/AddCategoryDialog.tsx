@@ -13,11 +13,8 @@ import {
 import { CategoriesSelect as ParentCategoriesSelect } from "../CategoriesSelect/CategoriesSelect";
 import { useCreateCategories } from "../../../hooks/useCategoriesCreation";
 
-type Props = {
-};
-
 const AddCategoryDialog: FC = () => {
-    const [parentCategoryId, setParentCategoryId] = useState<string>("");
+    const [parentCategoryId, setParentCategoryId] = useState<string>('');
     const [newCategory, setNewCategory] = useState<string>("");
     const project = useCurrentProject();
     const projectId = project?.id ?? "";
@@ -25,8 +22,8 @@ const AddCategoryDialog: FC = () => {
 
     return (
         <Dialog>
-            <DialogTrigger>
-                <Button className="cursor-pointer">Add new category</Button>
+            <DialogTrigger className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer">
+                Add new category
             </DialogTrigger>
 
             <DialogContent>
@@ -51,7 +48,7 @@ const AddCategoryDialog: FC = () => {
                         <Button
                             onClick={() => {
                                 addCategories([
-                                    { name: newCategory, project_id: projectId, parent_id: parentCategoryId },
+                                    { name: newCategory, project_id: projectId, parent_id: parentCategoryId || null },
                                 ])
                                 setNewCategory("");
                             }}

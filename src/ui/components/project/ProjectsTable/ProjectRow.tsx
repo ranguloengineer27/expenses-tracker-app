@@ -1,22 +1,18 @@
 import { useState } from "react";
-import { Button } from "../../utility-components/Button";
 import { TableCell, TableRow } from "../../utility-components";
 import { ProjectNameCell } from "./ProjectNameCell";
 import { ProjectActionCell } from "./ProjectActionCell";
 import type { Project } from "../../../../api/types/project";
+import { useProjects } from "../../../hooks/useProjects";
 
 type ProjectRowProps = {
     project: Project;
-    onDelete: (projectId: string) => void;
-    onUpdate: (
-        args: { projectId: string; name: string },
-        options?: { onSuccess?: () => void }
-    ) => void;
 };
 
-export const ProjectRow = ({ project, onDelete, onUpdate }: ProjectRowProps) => {
+export const ProjectRow = ({ project }: ProjectRowProps) => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [editingName, setEditingName] = useState<string>("");
+    const [editingName, setEditingName] = useState<string>(project?.name ?? "");
+    const { deleteProject, updateProjectName } = useProjects()
 
     return (
         <TableRow key={project.id} className="justify-content-between">
@@ -30,21 +26,17 @@ export const ProjectRow = ({ project, onDelete, onUpdate }: ProjectRowProps) => 
                 />
             </TableCell>
             <TableCell>
-                <Button
-                    variant="link"
-                    onClick={() => {
-                        onDelete(project.id);
-                    }}
-                >
-                    Delete
-                </Button>
                 <ProjectActionCell
+                    deleteProject={() => {
+                        deleteProject.mutate(project.id);
+                    }}
                     isEditing={isEditing}
-                    editingName={editingName}
-                    setIsEditing={setIsEditing}
-                    setEditingName={setEditingName}
-                    onUpdate={onUpdate}
-                    project={project}
+                    setIsEditing={() => setIsEditing(true)}
+                    onUpdate={() => {
+                        updateProjectName.mutate({ projectId: project.id, name: editingName });
+                        setIsEditing(false);
+                        setEditingName('')
+                    }}
                 />
             </TableCell>
         </TableRow>

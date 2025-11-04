@@ -1,8 +1,8 @@
-export type ExpenseCategory = {
+export type CategoryExpense = {
   id: string;
   project_id: string;
   name: string;
   parent_id?: string | null;
 };
 
-export type ExpenseClientCategory = Omit<ExpenseCategory, "id">;
+export type CategoryExpenseClient = Omit<CategoryExpense, "id">;

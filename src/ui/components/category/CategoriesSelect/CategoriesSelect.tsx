@@ -3,11 +3,13 @@ import { fetchCategories } from "../../../../api/adapters";
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
     SelectTrigger,
     SelectValue,
 } from "../../utility-components/Select";
 import { cn } from "../../utility-components/helpers/utils";
+import { mapCategories } from "./utils";
 
 type CategoriesSelectProps = {
     projectId: string;
@@ -22,16 +24,18 @@ export const CategoriesSelect = ({
     categoryId,
     setCategoryId,
     placeholder,
-    className
+    className,
 }: CategoriesSelectProps) => {
     const { data: categoriesData } = useQuery({
         queryKey: ["categories", projectId],
         queryFn: () => fetchCategories(projectId),
         enabled: !!projectId,
-        staleTime: 1000 * 60 * 1
+        staleTime: 1000 * 60 * 1,
     });
 
     if (!categoriesData?.length) return null;
+
+    const categoryGroups = mapCategories(categoriesData);
 
     return (
         <Select
@@ -44,10 +48,21 @@ export const CategoriesSelect = ({
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-                {categoriesData?.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                    </SelectItem>
+                {categoryGroups.map((group) => (
+                    <SelectGroup key={group.parent.id}>
+                        <SelectItem value={group.parent.id}>
+                            {group.parent.name}
+                        </SelectItem>
+                        {group.children.map((child) => (
+                            <SelectItem
+                                key={child.id}
+                                value={child.id}
+                                className="pl-5"
+                            >
+                                {child.name}
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
                 ))}
             </SelectContent>
         </Select>

@@ -54,7 +54,6 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
       </div>
       <div className="mt-1 flex gap-1">
         <CategoriesSelect
-          className="mt-3"
           projectId={projectId}
           categoryId={categoryId}
           setCategoryId={(value: string) => setCategoryId(value)}

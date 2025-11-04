@@ -1,7 +1,7 @@
 import { supabaseClient } from "../clients/supabaseClient";
-import type { ExpenseClientCategory } from "../types";
+import type { CategoryExpenseClient } from "../types";
 
-export const createCategories = async (categories: ExpenseClientCategory[]) => {
+export const createCategories = async (categories: CategoryExpenseClient[]) => {
   const { data, error } = await supabaseClient
     .from("project_categories")
     .insert(categories)

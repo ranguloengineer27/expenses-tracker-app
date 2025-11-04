@@ -3,7 +3,7 @@ import { ProjectsTable } from "./ProjectsTable/ProjectsTable";
 import { ProjectInputName } from "./ProjectInputName";
 
 const Projects = () => {
-    const { projects, isLoading, createProject, deleteProject, updateProjectName } = useProjects();
+    const { projects, isLoading, createProject } = useProjects();
 
     if (isLoading) return <p>Loading...</p>;
 
@@ -15,8 +15,6 @@ const Projects = () => {
 
                 <ProjectsTable
                     projects={projects}
-                    onDelete={(projectId) => deleteProject.mutate(projectId)}
-                    onUpdate={(args, options) => updateProjectName.mutate(args, options)}
                 />
             </div>
         </div>
