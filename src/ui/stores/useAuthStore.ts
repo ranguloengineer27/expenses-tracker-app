@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, devtools } from "zustand/middleware";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabaseClient } from "../../api/clients/supabaseClient";
 
@@ -12,39 +12,45 @@ type AuthState = {
     setSession: (session: Session | null) => void;
 };
 
+const initializer = (set: any): AuthState => ({
+    user: null,
+    session: null,
+
+    setSession: (session: Session | null) =>
+        set(
+            {
+                session,
+                user: session?.user ?? null,
+            },
+            false,
+            "auth/setSession",
+        ),
+    signUp: async (email: string, password: string) => {
+        const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+                emailRedirectTo: `${import.meta.env.VITE_APPLICATION_URL}/add-profile`,
+            },
+        });
+        if (error) throw error;
+        set({ user: data.user ?? null }, false, "auth/signUp");
+    },
+    signInWithPassword: async (email: string, password: string) => {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        set({ user: data.user ?? null }, false, "auth/signInWithPassword");
+    },
+
+    signOut: async () => {
+        await supabaseClient.auth.signOut();
+        set({ user: null, session: null }, false, "auth/signOut");
+    },
+});
+
 export const useAuthStore = create<AuthState>()(
-    persist(
-        (set) => ({
-            user: null,
-            session: null,
-
-            setSession: (session) =>
-                set({
-                    session,
-                    user: session?.user ?? null,
-                }),
-            signUp: async (email, password) => {
-                const { data, error } = await supabaseClient.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        emailRedirectTo: `${import.meta.env.VITE_APPLICATION_URL}/add-profile`,
-                    },
-                });
-                if (error) throw error;
-                set({ user: data.user ?? null });
-            },
-            signInWithPassword: async (email, password) => {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) throw error;
-                set({ user: data.user ?? null });
-            },
-
-            signOut: async () => {
-                await supabaseClient.auth.signOut();
-                set({ user: null, session: null });
-            },
-        }),
-        { name: "auth-storage" },
+    (import.meta.env.DEV ? devtools : (fn: any) => fn)(
+        persist(initializer, { name: "auth-storage" }),
+        { name: "AuthStore" }
     ),
 );

@@ -66,5 +66,18 @@ export const useProjects = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
   });
 
-  return { projects, isLoading, error, createProject, deleteProject };
+  const updateProjectName = useMutation({
+    mutationFn: async ({ projectId, name }: { projectId: string; name: string }) => {
+      const { data, error } = await supabaseClient
+        .from("projects")
+        .update({ name })
+        .eq("id", projectId);
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+  });
+
+  return { projects, isLoading, error, createProject, deleteProject, updateProjectName };
 };

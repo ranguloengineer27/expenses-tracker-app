@@ -7,7 +7,7 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 import ExpenseListItem from "../ExpenseItem/ExpenseItem";
 import { fetchExpensesByProjectId } from "../../../../api/adapters";
 import Loader from "../../utility-components/Loader";
-import { Table, TableBody } from "../../utility-components/table";
+import { Table, TableBody } from "../../utility-components";
 import { useState } from "react";
 import { Pagination } from "../../utility-components/Pagination";
 

@@ -1,19 +1,20 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, devtools } from "zustand/middleware";
 import type { Profile } from "../../api/types/profile";
 
 type ProfileState = {
-  profile: Profile | null;
-  setProfile: (profile: Profile | null) => void;
+    profile: Profile | null;
+    setProfile: (profile: Profile | null) => void;
 };
 
-export const useProfileStore = create<ProfileState>()(
-  persist(
-    (set) => ({
-      profile: null,
+const initializer = (set: any): ProfileState => ({
+    profile: null,
+    setProfile: (profile: Profile | null) => set({ profile }, false, "profile/setProfile"),
+});
 
-      setProfile: (profile) => set({ profile }),
-    }),
-    { name: "profile-storage" },
-  ),
+export const useProfileStore = create<ProfileState>()(
+    (import.meta.env.DEV ? devtools : (fn: any) => fn)(
+        persist(initializer, { name: "profile-storage" }),
+        { name: "ProfileStore" }
+    ),
 );
