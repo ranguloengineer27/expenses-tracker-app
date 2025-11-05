@@ -1,11 +1,12 @@
 import { memo, useCallback, useState, type ChangeEvent, type FC } from "react";
-import { extractInvoiceData } from "../../../../api/adapters/invoices";
 import { Input } from "../../utility-components/Input";
 import type { Expense } from "../../../../api/types";
 import { useCurrentProject } from "../../../hooks/useCurrentProject";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { Button } from "../../utility-components/Button";
 import { isMobileDevice } from "../../../helpers/isMobileDevice";
+import { Spinner } from "../../utility-components/Spinner";
+import { useExtractInvoiceData } from "../../../hooks/useExtractInvoiceData";
 
 const InputMemoized = memo(Input);
 
@@ -33,6 +34,7 @@ export const ExpensePhotoInput = memo(({ onFileSelected }: { onFileSelected: (fi
 
 type Props = {
     onAddExpense: (expense: Array<Omit<Expense, "id">>) => Promise<void>;
+    isFileLoading?: boolean;
 };
 
 const AddInvoiceFile: FC<Props> = ({ onAddExpense }) => {
@@ -41,6 +43,7 @@ const AddInvoiceFile: FC<Props> = ({ onAddExpense }) => {
     const projectId = project?.id!;
     const userId = user?.id!;
     const [file, setFile] = useState<File | null>(null);
+    const { mutate: extractInvoiceData, isPending } = useExtractInvoiceData();
 
     const updateInvoiceFile = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const fileData = e.target?.files?.[0];
@@ -69,16 +72,19 @@ const AddInvoiceFile: FC<Props> = ({ onAddExpense }) => {
             </>}
             <Button
                 onClick={() => {
-                    (async () => {
-                        if (!file) return;
-                        const data = (
-                            await extractInvoiceData(file, userId, projectId)
-                        ).filter(({ amount, description }) => !!(amount && description));
-                        onAddExpense(data);
-                    })();
+                    if (!file) return;
+                    extractInvoiceData(
+                        { file, userId, projectId },
+                        {
+                            onSuccess: (data) => {
+                                onAddExpense(data);
+                            },
+                        }
+                    );
                 }}
+                disabled={isPending}
             >
-                Add
+                {isPending ? <Spinner /> : "Add"}
             </Button>
         </>
     );

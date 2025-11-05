@@ -3,17 +3,14 @@ import type { Expense } from "../../api/types";
 import { updateExpense } from "../../api/adapters";
 import { queryClient } from "../../api/clients/queryClient";
 
+type UpdateExpenseParams = {
+    expenseId: string;
+    updates: Partial<Expense>;
+};
+
 export const useUpdateExpense = () => {
-    return useMutation({
-        mutationFn: ({
-            expenseId,
-            updates,
-        }: {
-            expenseId: string;
-            updates: Partial<Expense>;
-        }) => updateExpense(expenseId, updates),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["expenses"] });
-        },
+    return useMutation<Expense, Error, UpdateExpenseParams>({
+        mutationFn: ({ expenseId, updates }) => updateExpense(expenseId, updates),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expenses"] })
     });
 };

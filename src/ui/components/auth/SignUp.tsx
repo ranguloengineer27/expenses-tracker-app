@@ -40,7 +40,7 @@ export const SignUp = () => {
     return (
         <>
             <SignUpConfirmationModal open={showConfirmationModal} />
-            <div className="w-full mx-auto flex flex-col gap-2">
+            <div className="w-full mx-auto flex flex-col gap-2 min-h-[14rem]">
                 <h1>Sign Up</h1>
                 {error && <p className="text-red-500">{error}</p>}
                 <Input

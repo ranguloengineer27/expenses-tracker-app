@@ -1,9 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { addExpenseToProject } from "../../api/adapters";
+import { queryClient } from "../../api/clients/queryClient";
 
 export const useAddExpenses = () => {
-    const queryClient = useQueryClient();
-
     return useMutation({
         mutationFn: addExpenseToProject,
         onSuccess: () => {

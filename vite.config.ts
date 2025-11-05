@@ -9,4 +9,12 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/ui/components'),
     },
   },
+  /* server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3009',
+        changeOrigin: true,
+      },
+    },
+  }, */
 });

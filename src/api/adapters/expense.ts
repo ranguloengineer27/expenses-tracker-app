@@ -15,6 +15,7 @@ export const fetchExpensesByProjectId = async (
             .select("*", { count: "exact" })
             .eq("project_id", projectId)
             .order("created_at", { ascending: false }) // most recent go first
+            .order("id", { ascending: false })
             .range(from, to);
 
         if (error) throw error;
@@ -33,7 +34,6 @@ export const addExpenseToProject = async (
         const { data, error } = await supabaseClient
             .from("expenses")
             .insert(expenses)
-            .select();
 
         if (error) throw error;
         return data;
@@ -46,15 +46,17 @@ export const addExpenseToProject = async (
 export const updateExpense = async (
     expenseId: string,
     updates: Partial<Expense>,
-) => {
+): Promise<Expense> => {
     try {
         const { data, error } = await supabaseClient
             .from("expenses")
             .update(updates)
             .eq("id", expenseId)
-            .select();
+            .select()
+            .single();
 
         if (error) throw error;
+        if (!data) throw new Error("No expense found");
         return data;
     } catch (error) {
         console.error("Error updating expense:", error);

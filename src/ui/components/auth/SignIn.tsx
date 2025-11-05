@@ -18,7 +18,7 @@ export const SignIn = () => {
   };
 
   return (
-    <div className="w-full mx-auto flex flex-col gap-2">
+    <div className="w-full mx-auto flex flex-col gap-2 min-h-[14rem]">
       <h1>Sign In</h1>
       {error && <p className="text-red-500">{error}</p>}
       <Input

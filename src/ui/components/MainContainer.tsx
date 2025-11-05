@@ -17,11 +17,12 @@ export const MainContainer = () => {
 
   return (
     <div className="flex w-full">
-      <div className="w-[15%] text-left">
+      {/* <div className="w-[15%] flex justify-center items-end">
         <Navigation />
-      </div>
-      <div className="w-[85%]">
+      </div> */}
+      <div className="w-full sm:w-[85%] lg:w-[70%] md:mx-auto">
         <AppRouter />
+        <Navigation />
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ export const extractInvoiceData = async (
   const formData = new FormData();
   formData.append("file", file);
 
-  const resp = await fetch(`${import.meta.env.VITE_APPLICATION_URL}/api/readReceipt`, {
+  const resp = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/readReceipt`, {
     method: "POST",
     body: formData,
   });

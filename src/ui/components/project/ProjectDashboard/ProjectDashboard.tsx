@@ -8,6 +8,7 @@ import { useProjectStore } from "../../../stores/useProjectStore";
 import ExpenseList from "../../expense/ExpenseList/ExpenseList";
 /* import { ExpenseLogsList } from "../../log/Logs"; */
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../utility-components/Tabs";
+import { setExpensesSizing } from "../../expense/expenseHelpers";
 
 type ProjectTitleComponentProps = {
     name: string;
@@ -38,8 +39,10 @@ export const ProjectDashboard = () => {
         enabled: !!projectId,
     });
 
+    const { expensePageWrapperHeight } = setExpensesSizing();
+
     return (
-        <>
+        <div>
             <ProjectTitleComponent isLoading={isLoading} name={project?.name} />
             <hr />
             <Tabs defaultValue="addExpense" className="flex flex-col h-full w-full">
@@ -55,15 +58,21 @@ export const ProjectDashboard = () => {
                     </TabsTrigger> */}
                 </TabsList>
                 <TabsContent value="addExpense" className="leading-[3.8rem]">
-                    <ExpensesAdding />
+                    <div
+                        style={{ minHeight: expensePageWrapperHeight }}
+                    >
+                        <ExpensesAdding />
+                    </div>
                 </TabsContent>
                 <TabsContent value="expensesList">
-                    <ExpenseList />
+                    <div style={{ minHeight: expensePageWrapperHeight }}>
+                        <ExpenseList />
+                    </div>
                 </TabsContent>
                 {/* <TabsContent value="logsList">
           <ExpenseLogsList /> TODO: Fix state update and replace List by Table
         </TabsContent> */}
             </Tabs>
-        </>
+        </div>
     );
 };

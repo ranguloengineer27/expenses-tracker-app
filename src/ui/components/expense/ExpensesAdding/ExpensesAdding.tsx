@@ -4,6 +4,7 @@ import ExpenseForm from "../ExpenseForm/ExpenseForm";
 import AddInvoiceFile from "../../invoice/AddInvoiceFile/AddInvoiceFile";
 import { useAddExpenses } from "../../../hooks/useAddExpenses";
 import { Button } from "../../utility-components/Button";
+import { toast } from "sonner";
 
 const Tabs = {
     manual: "manual",
@@ -19,12 +20,14 @@ const ExpensesAdding = () => {
             <div>
                 <div>
                     <Button
+                        variant={tab !== Tabs.manual ? "secondary" : "default"}
                         onClick={() => setTab(Tabs.manual)}
                         className="mr-2 cursor-pointer"
                     >
                         Add it mannually
                     </Button>
                     <Button
+                        variant={tab !== Tabs.file ? "secondary" : "default"}
                         onClick={() => setTab(Tabs.file)}
                         className="ml-2 cursor-pointer"
                     >
@@ -41,8 +44,16 @@ const ExpensesAdding = () => {
                     ) : (
                         <div className="transform-y-3">
                             <AddInvoiceFile
+                                isFileLoading={isPending}
                                 onAddExpense={async (expenses: Array<Omit<Expense, "id">>) => {
-                                    addExpenses(expenses);
+                                    addExpenses(expenses, {
+                                        onSuccess: () => {
+                                            toast.success("Expenses added successfully");
+                                        },
+                                        onError: (error) => {
+                                            toast.error(error.message);
+                                        },
+                                    });
                                 }}
                             />
                         </div>

@@ -6,12 +6,12 @@ import { useUpdateExpense } from "../../../hooks/useUpdateExpense";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import ExpenseListItem from "../ExpenseItem/ExpenseItem";
 import { fetchExpensesByProjectId } from "../../../../api/adapters";
-import Loader from "../../utility-components/Loader";
 import { Table, TableBody } from "../../utility-components";
 import { useState } from "react";
 import { Pagination } from "../../utility-components/Pagination";
-
-const MAX_ITEMS_BY_PAGE = 5;
+import { Spinner } from "../../utility-components/Spinner";
+import { MAX_ITEMS_BY_PAGE } from "../expenseConstants";
+import { setExpensesSizing } from "../expenseHelpers";
 
 const ExpenseList: React.FC = () => {
   const { mutate: mutateExpense } = useUpdateExpense();
@@ -30,16 +30,15 @@ const ExpenseList: React.FC = () => {
     placeholderData: keepPreviousData,
   });
 
-  console.log("expenses :::", expenses);
-
-  if (loadingExpenses) return <Loader />;
+  if (loadingExpenses) return <Spinner />;
   if (!expenses?.data?.length) return <div>There's no expenses</div>;
 
   const pagesNumber = Math.ceil(expenses.total / MAX_ITEMS_BY_PAGE);
+  const { expenseTableHeight } = setExpensesSizing();
 
   return (
     <>
-      <Table className="mt-5 min-h-[16.4rem]">
+      <Table style={{ minHeight: expenseTableHeight }}>
         <TableBody>
           {expenses?.data?.map((expense) => {
             return (
