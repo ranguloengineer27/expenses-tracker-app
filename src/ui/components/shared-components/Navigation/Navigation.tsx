@@ -4,7 +4,7 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 export const Navigation = () => {
   const { signOut } = useAuthStore();
   return (
-    <ul className="w-30">
+    <ul className="w-3">
       <Button variant={"secondary"} onClick={signOut}>Logout</Button>
     </ul>
   );

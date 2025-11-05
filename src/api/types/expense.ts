@@ -5,4 +5,6 @@ export type Expense = {
   amount: number;
   category_id?: string | null;
   user_id: string;
+  quantity?: number;
+  payment_type?: string;
 };

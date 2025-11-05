@@ -8,7 +8,7 @@ const Projects = () => {
     if (isLoading) return <p>Loading...</p>;
 
     return (
-        <div>
+        <div className="mt-5">
             <div className="w-3/5">
                 <h1 className="mb-5">You can manage your projects here</h1>
                 <ProjectInputName onCreate={(name) => createProject.mutate(name)} />

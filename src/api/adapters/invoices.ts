@@ -25,6 +25,8 @@ export const extractInvoiceData = async (
       amount: product.total,
       user_id: userId,
       project_id: projectId,
+      quantity: product.quantity,
+      payment_type: data.payment.type,
     }),
   );
   return products;

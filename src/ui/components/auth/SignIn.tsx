@@ -3,7 +3,11 @@ import { useAuthStore } from "../../stores/useAuthStore";
 import { Input } from "../utility-components/Input";
 import { Button } from "../utility-components/Button";
 
-export const SignIn = () => {
+interface SignInProps {
+  onForgotPassword?: () => void;
+}
+
+export const SignIn = ({ onForgotPassword }: SignInProps) => {
   const { signInWithPassword } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +38,15 @@ export const SignIn = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button onClick={handleSignIn}>Sign In</Button>
+      {onForgotPassword && (
+        <Button
+          variant="link"
+          onClick={onForgotPassword}
+          className="text-sm mt-2"
+        >
+          Forgot password?
+        </Button>
+      )}
     </div>
   );
 };

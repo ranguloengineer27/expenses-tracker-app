@@ -31,7 +31,17 @@ const ExpenseList: React.FC = () => {
   });
 
   if (loadingExpenses) return <Spinner />;
-  if (!expenses?.data?.length) return <div>There's no expenses</div>;
+  if (!expenses?.data?.length) {
+    if (expenses?.total === 0) {
+      return <div className="mt-5">There's no expenses</div>;
+    }
+    setPage((currentPage) => {
+      if (currentPage >= 1) {
+        return currentPage - 1;
+      }
+      return currentPage;
+    });
+  }
 
   const pagesNumber = Math.ceil(expenses.total / MAX_ITEMS_BY_PAGE);
   const { expenseTableHeight } = setExpensesSizing();

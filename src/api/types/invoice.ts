@@ -4,11 +4,15 @@ export type ServerInvoice = {
     full_description: string;
     total: number;
     type: string;
+    quantity: number;
   }>;
   vendor: {
     name: string;
     category: string;
   };
+  payment: {
+    type: string;
+  }
 };
 
 export type ClientInvoiceProduct = {

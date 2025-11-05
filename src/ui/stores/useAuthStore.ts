@@ -9,6 +9,8 @@ type AuthState = {
     signInWithPassword: (email: string, password: string) => Promise<void>;
     signUp: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
+    resetPasswordForEmail: (email: string) => Promise<void>;
+    updatePassword: (newPassword: string) => Promise<void>;
     setSession: (session: Session | null) => void;
 };
 
@@ -45,6 +47,18 @@ const initializer = (set: any): AuthState => ({
     signOut: async () => {
         await supabaseClient.auth.signOut();
         set({ user: null, session: null }, false, "auth/signOut");
+    },
+    resetPasswordForEmail: async (email: string) => {
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: `${import.meta.env.VITE_APPLICATION_URL}/reset-password`,
+        });
+        if (error) throw error;
+    },
+    updatePassword: async (newPassword: string) => {
+        const { error } = await supabaseClient.auth.updateUser({
+            password: newPassword,
+        });
+        if (error) throw error;
     },
 });
 
