@@ -4,11 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build:client": "vite build",
-    "build": "pnpm run build:server && pnpm run build:client",
+    "build": "vite build",
     "dev": "vite",
-    "start": "node dist/server.js",
-    "build-and-run": "pnpm run build && pnpm run start",
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "npx prettier --write .",
