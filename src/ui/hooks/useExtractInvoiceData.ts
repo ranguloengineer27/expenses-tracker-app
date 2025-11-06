@@ -5,12 +5,13 @@ type ExtractInvoiceDataParams = {
     file: File;
     userId: string;
     projectId: string;
+    token: string;
 };
 
 export const useExtractInvoiceData = () => {
     return useMutation({
-        mutationFn: async ({ file, userId, projectId }: ExtractInvoiceDataParams) => {
-            const data = await extractInvoiceData(file, userId, projectId);
+        mutationFn: async ({ file, userId, projectId, token }: ExtractInvoiceDataParams) => {
+            const data = await extractInvoiceData(file, userId, projectId, token);
             return data.filter(({ amount, description }) => !!(amount && description));
         },
     });

@@ -38,13 +38,13 @@ type Props = {
 };
 
 const AddInvoiceFile: FC<Props> = ({ onAddExpense }) => {
-    const { user } = useAuthStore();
+    const { user, session } = useAuthStore();
     const project = useCurrentProject();
     const projectId = project?.id!;
     const userId = user?.id!;
     const [file, setFile] = useState<File | null>(null);
     const { mutate: extractInvoiceData, isPending } = useExtractInvoiceData();
-
+    const token = session?.access_token;
     const updateInvoiceFile = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const fileData = e.target?.files?.[0];
 
@@ -74,7 +74,7 @@ const AddInvoiceFile: FC<Props> = ({ onAddExpense }) => {
                 onClick={() => {
                     if (!file) return;
                     extractInvoiceData(
-                        { file, userId, projectId },
+                        { file, userId, projectId, token: token! },
                         {
                             onSuccess: (data) => {
                                 onAddExpense(data);

@@ -6,7 +6,7 @@ import { useUpdateExpense } from "../../../hooks/useUpdateExpense";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import ExpenseListItem from "../ExpenseItem/ExpenseItem";
 import { fetchExpensesByProjectId } from "../../../../api/adapters";
-import { Table, TableBody } from "../../utility-components";
+import { Table, TableBody, TableHeader, TableHead, TableRow } from "../../utility-components";
 import { useState } from "react";
 import { Pagination } from "../../utility-components/Pagination";
 import { Spinner } from "../../utility-components/Spinner";
@@ -49,6 +49,16 @@ const ExpenseList: React.FC = () => {
   return (
     <>
       <Table style={{ minHeight: expenseTableHeight }}>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Description</TableHead>
+            <TableHead>Amount</TableHead>
+            <TableHead>Quantity</TableHead>
+            <TableHead>Payment Type</TableHead>
+            <TableHead>Currency</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
         <TableBody>
           {expenses?.data?.map((expense) => {
             return (
@@ -56,6 +66,9 @@ const ExpenseList: React.FC = () => {
                 key={expense.id}
                 title={expense.description}
                 amount={expense.amount}
+                quantity={expense.quantity}
+                paymentType={expense.payment_type}
+                currency={expense.currency}
                 updateExpensesList={(id: string, newData: Partial<Expense>) => {
                   mutateExpense({ expenseId: id, updates: newData });
                 }}

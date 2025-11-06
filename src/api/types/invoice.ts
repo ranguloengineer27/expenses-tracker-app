@@ -13,6 +13,7 @@ export type ServerInvoice = {
   payment: {
     type: string;
   }
+  currency_code: string;
 };
 
 export type ClientInvoiceProduct = {

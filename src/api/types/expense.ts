@@ -7,4 +7,5 @@ export type Expense = {
   user_id: string;
   quantity?: number;
   payment_type?: string;
+  currency?: string;
 };
