@@ -1,18 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../stores/useAuthStore";
-import { Input } from "../utility-components/Input";
+import { InputPassword } from "../utility-components/InputPassword";
 import { Button } from "../utility-components/Button";
 import { isStrongPassword } from "./helpers/isStrongPassword";
-import Eye from "../../assets/icons/Eye";
-import EyeOff from "../../assets/icons/EyeOff";
 
 export const ResetPassword = () => {
     const { updatePassword, session } = useAuthStore();
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -91,44 +87,18 @@ export const ResetPassword = () => {
             <div className="w-full mx-auto flex flex-col gap-2 min-h-[14rem]">
                 <h1>Set New Password</h1>
                 {error && <p className="text-red-500">{error}</p>}
-                <div className="relative">
-                    <Input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="New Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        disabled={isLoading}
-                        className="pr-10"
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                        disabled={isLoading}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                    >
-                        {showPassword ? <EyeOff /> : <Eye />}
-                    </button>
-                </div>
-                <div className="relative">
-                    <Input
-                        type={showConfirmPassword ? "text" : "password"}
-                        placeholder="Confirm New Password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        disabled={isLoading}
-                        className="pr-10"
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                        disabled={isLoading}
-                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                    >
-                        {showConfirmPassword ? <EyeOff /> : <Eye />}
-                    </button>
-                </div>
+                <InputPassword
+                    placeholder="New Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={isLoading}
+                />
+                <InputPassword
+                    placeholder="Confirm New Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    disabled={isLoading}
+                />
                 <Button onClick={handleResetPassword} disabled={isLoading}>
                     {isLoading ? "Resetting..." : "Reset Password"}
                 </Button>

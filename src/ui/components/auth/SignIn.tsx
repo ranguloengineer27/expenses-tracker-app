@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { Input } from "../utility-components/Input";
+import { InputPassword } from "../utility-components/InputPassword";
 import { Button } from "../utility-components/Button";
 
 interface SignInProps {
@@ -31,8 +32,7 @@ export const SignIn = ({ onForgotPassword }: SignInProps) => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Input
-        type="password"
+      <InputPassword
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}

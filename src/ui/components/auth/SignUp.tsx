@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { Input } from "../utility-components/Input";
+import { InputPassword } from "../utility-components/InputPassword";
 import { Button } from "../utility-components/Button";
 import { SignUpConfirmationModal } from "./SignUpConfirmationModal";
 import { isStrongPassword } from "./helpers/isStrongPassword";
@@ -49,14 +50,12 @@ export const SignUp = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <Input
-                    type="password"
+                <InputPassword
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <Input
-                    type="password"
+                <InputPassword
                     placeholder="Confirm password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
