@@ -3,6 +3,8 @@
 A modern expense tracking web app built with **React**, **TypeScript**, and **Supabase**.  
 Easily manage your personal or project-based expenses, upload receipts, and get automatic insights — all in one place.
 
+Production link: https://expenses-tracker-app-chi.vercel.app/
+
 ---
 
 ## ✨ Features
