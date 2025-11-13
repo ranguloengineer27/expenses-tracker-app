@@ -124,8 +124,6 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ onAddExpense }) => {
         </div>
       </div>
 
-      <hr className="mt-6" />
-
       <div className="flex mt-3">
         <Button type="submit" className="mt-1">
           Add expense

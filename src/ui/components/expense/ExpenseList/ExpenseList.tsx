@@ -52,9 +52,6 @@ const ExpenseList: React.FC = () => {
           <TableRow>
             <TableHead>Description</TableHead>
             <TableHead>Amount</TableHead>
-            <TableHead>Quantity</TableHead>
-            <TableHead>Payment Type</TableHead>
-            <TableHead>Currency</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>

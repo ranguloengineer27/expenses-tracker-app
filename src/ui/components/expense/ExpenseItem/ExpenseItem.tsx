@@ -42,6 +42,7 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
   categoryId
 }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const {
     title: formTitle,
     amount: formAmount,
@@ -50,11 +51,11 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
     currency: formCurrency,
     categoryId: formCategoryId,
     handleFieldChange,
-    resetForm,
     errors
   } = useExpenseForm({ title, amount, quantity, paymentType, categoryId: categoryId! });
 
   return (
+    <>
     <TableRow>
       {isEdit ? (
         <TableCell className="position-absolute w-100 gap-1 flex flex-col">
@@ -136,7 +137,6 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
               variant="secondary"
               onClick={() => {
                 setIsEdit(false);
-                resetForm();
               }}
             >
               Cancel
@@ -146,10 +146,7 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
       ) : (
         <>
           <TableCell>{title}</TableCell>
-          <TableCell>{amount}</TableCell>
-          <TableCell>{quantity !== undefined && quantity !== null ? quantity : "-"}</TableCell>
-          <TableCell>{paymentType ? PAYMENT_TYPES.find((t) => t.value === paymentType)?.label || paymentType : "-"}</TableCell>
-          <TableCell>{currency || "-"}</TableCell>
+          <TableCell>{amount} {currency}</TableCell>
           <TableCell>
             <Button
               onClick={() => {
@@ -168,10 +165,26 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
             >
               Delete
             </Button>
+            <Button
+              onClick={() => {
+                setShowDetails((prev) => !prev);
+              }}
+              className="ml-1"
+            >
+              See details
+            </Button>
           </TableCell>
         </>
       )}
+      
     </TableRow>
+     {showDetails && 
+      <TableRow>
+        <TableCell>Quantity: {quantity !== undefined && quantity !== null ? quantity : "-"}</TableCell>
+        <TableCell>Payment: {paymentType ? PAYMENT_TYPES.find((t) => t.value === paymentType)?.label || paymentType : "-"}</TableCell>
+     </TableRow>
+    }
+    </>
   );
 };
 
