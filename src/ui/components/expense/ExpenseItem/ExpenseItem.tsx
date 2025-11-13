@@ -1,16 +1,18 @@
 import { useState, type FC } from "react";
 import type { Expense } from "../../../../api/types";
-import { Input } from "../../utility-components/Input";
 import { Button } from "../../utility-components/Button";
 import { TableCell, TableRow } from "../../utility-components";
 import {
-  Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "../../utility-components/Select";
-import { PAYMENT_TYPES, CURRENCIES } from "../expenseConstants";
+import { PAYMENT_TYPES } from "../expenseConstants";
+import { InputWithErrorMessage } from "../../../HOC/InputWithErrorMessage";
+import { SelectWithErrorMessage } from "../../../HOC/SelectWithErrorMessage";
+import { useExpenseForm } from "../../../hooks/useExpenseForm";
+import { CategoriesSelectWithErrorMessage } from "../../../HOC/CategoriesSelectWithErrorMessage";
 
 type ExpenseListItemProps = {
   id?: string;
@@ -23,6 +25,7 @@ type ExpenseListItemProps = {
   deleteExpense: (id: string) => void;
   projectId: string;
   userId: string;
+  categoryId?:string | null;
 };
 
 const ExpenseListItem: FC<ExpenseListItemProps> = ({
@@ -36,55 +39,66 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
   deleteExpense,
   projectId,
   userId,
+  categoryId
 }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [newTitle, setNewTitle] = useState("");
-  const [newAmount, setNewAmount] = useState<number | null>(null);
-  const [newQuantity, setNewQuantity] = useState<string>("");
-  const [newPaymentType, setNewPaymentType] = useState<string>("");
-  const [newCurrency, setNewCurrency] = useState<string>("");
-
-  const formatCurrency = (amount: number, currency?: string) => {
-    if (!currency) return amount.toFixed(2);
-    const currencySymbol = CURRENCIES.find((c) => c.value === currency)?.label.split(" ")[1] || currency;
-    return `${currencySymbol}${amount.toFixed(2)}`;
-  };
+  const {
+    title: formTitle,
+    amount: formAmount,
+    quantity: formQuantity,
+    paymentType: formPaymentType,
+    currency: formCurrency,
+    categoryId: formCategoryId,
+    handleFieldChange,
+    resetForm,
+    errors
+  } = useExpenseForm({ title, amount, quantity, paymentType, categoryId: categoryId! });
 
   return (
     <TableRow>
       {isEdit ? (
-        <div className="position-absolute w-100 gap-1 flex flex-col">
-          <div className="flex gap-1">
-            <Input
-              value={newTitle ? newTitle : title}
+        <TableCell className="position-absolute w-100 gap-1 flex flex-col">
+          <TableCell className="flex gap-1">
+            <InputWithErrorMessage
+              value={formTitle}
               onChange={(e) => {
-                setNewTitle(e.target.value);
+                handleFieldChange("title", e.target.value);
               }}
               placeholder="Description"
+              error={errors.title}
             />
-            <Input
+            <InputWithErrorMessage
               type="number"
-              value={newAmount !== null ? newAmount : amount}
+              value={formAmount}
               onChange={(e) => {
-                setNewAmount(Number(e.target.value));
+                handleFieldChange("amount", e.target.value);
               }}
               placeholder="Amount"
+              error={errors.amount}
             />
-            <Input
+            <InputWithErrorMessage
               type="number"
-              value={newQuantity !== "" ? newQuantity : (quantity?.toString() || "")}
+              value={formQuantity || quantity?.toString() || ""}
               onChange={(e) => {
-                setNewQuantity(e.target.value);
+                handleFieldChange("quantity", e.target.value);
               }}
-              placeholder="Quantity"
               min="0"
               step="0.01"
+              error={errors.quantity}
             />
-          </div>
-          <div className="flex gap-1 mt-1">
-            <Select
-              value={newPaymentType !== "" ? newPaymentType : (paymentType || "")}
-              onValueChange={setNewPaymentType}
+          </TableCell>
+          <TableCell className="flex gap-1 mt-1">
+            <CategoriesSelectWithErrorMessage
+              projectId={projectId}
+              categoryId={formCategoryId ?? ""}
+                setCategoryId={(value:string) => handleFieldChange("categoryId", value)}
+              placeholder="Select categories"
+              error={errors.categoryId}
+          />
+            <SelectWithErrorMessage
+              value={formPaymentType || paymentType || ""}
+              onValueChange={(value) => handleFieldChange("paymentType", value)}
+              error={errors.paymentType}
             >
               <SelectTrigger className="min-w-[10rem]">
                 <SelectValue placeholder="Payment Type" />
@@ -96,36 +110,21 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
-            <Select
-              value={newCurrency !== "" ? newCurrency : (currency || "USD")}
-              onValueChange={setNewCurrency}
-            >
-              <SelectTrigger className="min-w-[10rem]">
-                <SelectValue placeholder="Currency" />
-              </SelectTrigger>
-              <SelectContent>
-                {CURRENCIES.map((curr) => (
-                  <SelectItem key={curr.value} value={curr.value}>
-                    {curr.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex gap-1 mt-1">
+            </SelectWithErrorMessage>
+          </TableCell>
+          <TableCell className="flex gap-1 mt-1">
             <Button
               onClick={() => {
                 setIsEdit(false);
 
                 const payload: Partial<Expense> = {
-                  description: newTitle ? newTitle : title,
-                  amount: newAmount !== null ? newAmount : amount,
+                  description: formTitle || title,
+                  amount: formAmount ? parseFloat(String(formAmount)) : amount,
                   project_id: projectId,
                   user_id: userId,
-                  quantity: newQuantity !== "" ? parseFloat(newQuantity) : quantity,
-                  payment_type: newPaymentType !== "" ? newPaymentType : paymentType,
-                  currency: newCurrency !== "" ? newCurrency : currency,
+                  quantity: formQuantity ? parseFloat(String(formQuantity)) : quantity,
+                  payment_type: formPaymentType || paymentType,
+                  currency: formCurrency || currency,
                 };
 
                 updateExpensesList(id!, payload);
@@ -137,21 +136,17 @@ const ExpenseListItem: FC<ExpenseListItemProps> = ({
               variant="secondary"
               onClick={() => {
                 setIsEdit(false);
-                setNewTitle("");
-                setNewAmount(null);
-                setNewQuantity("");
-                setNewPaymentType("");
-                setNewCurrency("");
+                resetForm();
               }}
             >
               Cancel
             </Button>
-          </div>
-        </div>
+          </TableCell>
+        </TableCell>
       ) : (
         <>
           <TableCell>{title}</TableCell>
-          <TableCell>{formatCurrency(amount, currency)}</TableCell>
+          <TableCell>{amount}</TableCell>
           <TableCell>{quantity !== undefined && quantity !== null ? quantity : "-"}</TableCell>
           <TableCell>{paymentType ? PAYMENT_TYPES.find((t) => t.value === paymentType)?.label || paymentType : "-"}</TableCell>
           <TableCell>{currency || "-"}</TableCell>

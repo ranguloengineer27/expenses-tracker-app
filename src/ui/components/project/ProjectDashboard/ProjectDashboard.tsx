@@ -57,7 +57,7 @@ export const ProjectDashboard = () => {
                         <Button variant={"secondary"}>Logs expenses</Button>
                     </TabsTrigger> */}
                 </TabsList>
-                <TabsContent value="addExpense" className="leading-[3.8rem]">
+                <TabsContent value="addExpense">
                     <div
                         style={{ minHeight: expensePageWrapperHeight }}
                     >

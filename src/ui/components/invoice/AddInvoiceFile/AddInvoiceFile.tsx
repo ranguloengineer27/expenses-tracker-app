@@ -90,4 +90,4 @@ const AddInvoiceFile: FC<Props> = ({ onAddExpense }) => {
     );
 };
 
-export default AddInvoiceFile;
+export default memo(AddInvoiceFile);

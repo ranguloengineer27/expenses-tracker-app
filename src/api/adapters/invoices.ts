@@ -9,16 +9,7 @@ export const extractInvoiceData = async (
   const formData = new FormData();
   formData.append("file", file);
 
-  // Get Supabase URL and anon key for the edge function
-  /* const supabaseUrl = import.meta.env.VITE_SUPABASE_URL_2;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl) {
-    throw new Error("Missing Supabase URL configuration");
-  } */
-  
   const headers: HeadersInit = {
-    // Don't set Content-Type for FormData - browser will set it with boundary
   };
   headers.Authorization = `Bearer ${token}`;
 
@@ -46,7 +37,6 @@ export const extractInvoiceData = async (
       project_id: projectId,
       quantity: product.quantity,
       payment_type: data.payment.type,
-      currency: data.currency_code,
     }),
   );
   return products;

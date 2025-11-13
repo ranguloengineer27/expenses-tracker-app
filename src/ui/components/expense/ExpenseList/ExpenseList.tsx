@@ -45,7 +45,6 @@ const ExpenseList: React.FC = () => {
 
   const pagesNumber = Math.ceil(expenses.total / MAX_ITEMS_BY_PAGE);
   const { expenseTableHeight } = setExpensesSizing();
-
   return (
     <>
       <Table style={{ minHeight: expenseTableHeight }}>
@@ -78,6 +77,7 @@ const ExpenseList: React.FC = () => {
                 id={expense.id}
                 projectId={project?.id!}
                 userId={user?.id!}
+                categoryId={expense.category_id}
               />
             );
           })}
