@@ -1,4 +1,4 @@
-import { supabaseClient } from "../clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
 import type { Expense } from "../types";
 
 export const fetchExpensesByProjectId = async (
@@ -10,7 +10,8 @@ export const fetchExpensesByProjectId = async (
     const to = from + limit - 1;
 
     try {
-        const { data, error, count } = await supabaseClient
+        const supabase = await createSupabaseClient();
+        const { data, error, count } = await supabase
             .from("expenses")
             .select("*", { count: "exact" })
             .eq("project_id", projectId)
@@ -31,7 +32,8 @@ export const addExpenseToProject = async (
     expenses: Array<Omit<Expense, "id">>,
 ) => {
     try {
-        const { data, error } = await supabaseClient
+        const supabase = await createSupabaseClient();
+        const { data, error } = await supabase
             .from("expenses")
             .insert(expenses)
 
@@ -48,7 +50,8 @@ export const updateExpense = async (
     updates: Partial<Expense>,
 ): Promise<Expense> => {
     try {
-        const { data, error } = await supabaseClient
+        const supabase = await createSupabaseClient();
+        const { data, error } = await supabase
             .from("expenses")
             .update(updates)
             .eq("id", expenseId)
@@ -66,7 +69,8 @@ export const updateExpense = async (
 
 export const deleteExpenses = async (expenseIds: string[]) => {
     try {
-        const { error } = await supabaseClient
+        const supabase = await createSupabaseClient();
+        const { error } = await supabase
             .from("expenses")
             .delete()
             .in("id", expenseIds);

@@ -1,8 +1,9 @@
-import { supabaseClient } from "../clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
 import type { CategoryExpenseClient } from "../types";
 
 export const createCategories = async (categories: CategoryExpenseClient[]) => {
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseClient();
+  const { data, error } = await supabase
     .from("project_categories")
     .insert(categories)
     .select()
@@ -13,7 +14,8 @@ export const createCategories = async (categories: CategoryExpenseClient[]) => {
 };
 
 export const fetchCategories = async (projectId: string) => {
-  const { data, error } = await supabaseClient
+  const supabase = await createSupabaseClient();
+  const { data, error } = await supabase
     .from("project_categories")
     .select("*")
     .eq("project_id", projectId)

@@ -1,9 +1,10 @@
-import { supabaseClient } from "../clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
 import type { ExpenseLog } from "../types/log";
 
 export const getExpenseLogs = async (userId: string) => {
   try {
-    const { data, error } = await supabaseClient
+    const supabase = await createSupabaseClient();
+    const { data, error } = await supabase
       .from("expense_logs")
       .select("*")
       .eq("user_id", userId)

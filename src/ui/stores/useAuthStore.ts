@@ -1,7 +1,8 @@
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import type { Session, User } from "@supabase/supabase-js";
-import { supabaseClient } from "../../api/clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
+import { withDevtools } from "./utils/withDevtools";
 
 type AuthState = {
     user: User | null;
@@ -28,34 +29,39 @@ const initializer = (set: any): AuthState => ({
             "auth/setSession",
         ),
     signUp: async (email: string, password: string) => {
-        const { data, error } = await supabaseClient.auth.signUp({
+        const supabase = await createSupabaseClient();
+        const { data, error } = await supabase.auth.signUp({
             email,
             password,
             options: {
-                emailRedirectTo: `${import.meta.env.VITE_APPLICATION_URL}/add-profile`,
+                emailRedirectTo: `${process.env.NEXT_PUBLIC_APPLICATION_URL}/add-profile`,
             },
         });
         if (error) throw error;
         set({ user: data.user ?? null }, false, "auth/signUp");
     },
     signInWithPassword: async (email: string, password: string) => {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        const supabase = await createSupabaseClient();
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         set({ user: data.user ?? null }, false, "auth/signInWithPassword");
     },
 
     signOut: async () => {
-        await supabaseClient.auth.signOut();
+        const supabase = await createSupabaseClient();
+        await supabase.auth.signOut();
         set({ user: null, session: null }, false, "auth/signOut");
     },
     resetPasswordForEmail: async (email: string) => {
-        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: `${import.meta.env.VITE_APPLICATION_URL}/reset-password`,
+        const supabase = await createSupabaseClient();
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: `${process.env.NEXT_PUBLIC_APPLICATION_URL}/reset-password`,
         });
         if (error) throw error;
     },
     updatePassword: async (newPassword: string) => {
-        const { error } = await supabaseClient.auth.updateUser({
+        const supabase = await createSupabaseClient();
+        const { error } = await supabase.auth.updateUser({
             password: newPassword,
         });
         if (error) throw error;
@@ -63,7 +69,7 @@ const initializer = (set: any): AuthState => ({
 });
 
 export const useAuthStore = create<AuthState>()(
-    (import.meta.env.DEV ? devtools : (fn: any) => fn)(
+    withDevtools(
         persist(initializer, { name: "auth-storage" }),
         { name: "AuthStore" }
     ),

@@ -1,9 +1,10 @@
-import { supabaseClient } from "../clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
 import type { Profile } from "../types/profile";
 
 export const fechProfileById = async (id: string) => {
   try {
-    const { data, error } = await supabaseClient
+    const supabase = await createSupabaseClient();
+    const { data, error } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", id)
@@ -22,7 +23,8 @@ export const fechProfileById = async (id: string) => {
 
 export const createProfile = async (profile: any): Promise<Profile[]> => {
   try {
-    const { data, error } = await supabaseClient
+    const supabase = await createSupabaseClient();
+    const { data, error } = await supabase
       .from("profiles")
       .insert(profile)
       .select();

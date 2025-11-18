@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { InputPassword } from "../utility-components/InputPassword";
 import { Button } from "../utility-components/Button";
@@ -12,7 +14,7 @@ export const ResetPassword = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+    const router = useRouter();
 
     useEffect(() => {
         // Check if user has a valid session (Supabase sets this automatically when clicking reset link)
@@ -46,7 +48,7 @@ export const ResetPassword = () => {
             await updatePassword(password);
             setSuccess(true);
             setTimeout(() => {
-                navigate("/sign-in");
+                router.push("/sign-in");
             }, 2000);
         } catch (err: any) {
             setError(err.message ?? "Failed to reset password");
@@ -74,7 +76,7 @@ export const ResetPassword = () => {
                 <div className="w-full mx-auto flex flex-col gap-2 min-h-[14rem]">
                     <h1>Invalid Reset Link</h1>
                     {error && <p className="text-red-500">{error}</p>}
-                    <Button onClick={() => navigate("/sign-in")}>
+                    <Button onClick={() => router.push("/sign-in")}>
                         Go to Sign In
                     </Button>
                 </div>

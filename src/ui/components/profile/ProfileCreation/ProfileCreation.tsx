@@ -1,8 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import { Input } from "../../utility-components/Input";
 import { useProfileCreation } from "../../../hooks/useProfileCreation";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../shared-components/Navigation/AppRouter";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { Button } from "../../utility-components/Button";
 import { useProfileStore } from "../../../stores/useProfileStore";
@@ -12,10 +13,10 @@ export const ProfileCreation = () => {
     const createProfile = useProfileCreation();
     const { profile } = useProfileStore();
     const [name, setName] = useState("");
-    const navigate = useNavigate();
+    const router = useRouter();
 
     if (profile) {
-        navigate(ROUTES.projects);
+        router.push("/projects");
         return;
     }
 
@@ -34,7 +35,7 @@ export const ProfileCreation = () => {
                         name,
                         email: user?.email,
                     });
-                    navigate(ROUTES.projects);
+                    router.push("/projects");
                 }}
             >
                 Submit

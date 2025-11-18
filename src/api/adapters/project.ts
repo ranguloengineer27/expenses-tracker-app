@@ -1,4 +1,4 @@
-import { supabaseClient } from "../clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
 import { fetchProjectMembersByUserId } from "./projectMembers";
 
 export const fetchProjects = async (userId: string) => {
@@ -9,7 +9,8 @@ export const fetchProjects = async (userId: string) => {
 
     const projectIds = projectMembers.map(({ project_id }) => project_id);
 
-    const { data, error } = await supabaseClient
+    const supabase = await createSupabaseClient();
+    const { data, error } = await supabase
       .from("projects")
       .select("*")
       .in("id", projectIds);
@@ -23,7 +24,8 @@ export const fetchProjects = async (userId: string) => {
 
 export const getProjectById = async (projectId: string) => {
   try {
-    const { data, error } = await supabaseClient
+    const supabase = await createSupabaseClient();
+    const { data, error } = await supabase
       .from("projects")
       .select("*")
       .eq("id", projectId)

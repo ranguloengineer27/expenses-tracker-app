@@ -1,10 +1,11 @@
-import { supabaseClient } from "../clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
 
 export const fetchProjectMembersByUserId = async (userId: string) => {
   try {
     if (!userId) throw new Error("userId is required");
 
-    const { data, error } = await supabaseClient
+    const supabase = await createSupabaseClient();
+    const { data, error } = await supabase
       .from("project_members")
       .select("*")
       .eq("user_id", userId);

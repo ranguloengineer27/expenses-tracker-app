@@ -1,5 +1,6 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import { getProjectById } from "../../../../api/adapters/project";
 import { withLoader } from "../../../HOC/withLoader";
 import { useEffect, type FC } from "react";
@@ -19,8 +20,7 @@ const ProjectTitle: FC<ProjectTitleComponentProps> = ({ name }) => (
 
 const ProjectTitleComponent = withLoader(ProjectTitle);
 
-export const ProjectDashboard = () => {
-    const { projectId } = useParams();
+export const ProjectDashboard = ({ projectId }: { projectId: string }) => {
     const { data } = useQuery({
         queryKey: ["project", projectId],
         queryFn: () => getProjectById(projectId!),

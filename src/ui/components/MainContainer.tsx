@@ -1,19 +1,20 @@
+"use client";
+
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { usePathname, useRouter } from "next/navigation";
 import { Navigation } from "./shared-components/Navigation/Navigation";
-import AppRouter, { ROUTES } from "./shared-components/Navigation/AppRouter";
 import { useProfileStore } from "../stores/useProfileStore";
 
-export const MainContainer = () => {
+export const MainContainer = ({ children }: { children: React.ReactNode }) => {
   const { profile } = useProfileStore();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!profile && location.pathname !== ROUTES.profile) {
-      navigate(ROUTES.profile, { replace: true });
+    if (!profile && pathname !== "/add-profile") {
+      router.replace("/add-profile");
     }
-  }, [profile, location.pathname, navigate]);
+  }, [profile, pathname, router]);
 
   return (
     <div className="flex w-full">
@@ -21,7 +22,7 @@ export const MainContainer = () => {
         <Navigation />
       </div> */}
       <div className="w-full sm:w-[85%] lg:w-[70%] md:mx-auto">
-        <AppRouter />
+        {children}
         <Navigation />
       </div>
     </div>

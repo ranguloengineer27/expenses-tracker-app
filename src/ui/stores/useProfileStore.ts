@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import type { Profile } from "../../api/types/profile";
+import { withDevtools } from "./utils/withDevtools";
 
 type ProfileState = {
     profile: Profile | null;
@@ -13,7 +14,7 @@ const initializer = (set: any): ProfileState => ({
 });
 
 export const useProfileStore = create<ProfileState>()(
-    (import.meta.env.DEV ? devtools : (fn: any) => fn)(
+    withDevtools(
         persist(initializer, { name: "profile-storage" }),
         { name: "ProfileStore" }
     ),

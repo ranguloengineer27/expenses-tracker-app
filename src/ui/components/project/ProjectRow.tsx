@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Input } from "../utility-components/Input";
 import { Button } from "../utility-components/Button";
 import { TableCell, TableRow } from "../utility-components/Table";
@@ -35,7 +35,7 @@ const ProjectName = ({ isEditing, editingName, onChangeEditingName, projectId, p
                 placeholder="Project Name"
             />
         ) : (
-            <Link to={`/dashboard/${projectId}`}>{projectName}</Link>
+            <Link href={`/dashboard/${projectId}`}>{projectName}</Link>
         )}
     </>
 );

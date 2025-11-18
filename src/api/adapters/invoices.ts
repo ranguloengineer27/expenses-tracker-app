@@ -14,7 +14,7 @@ export const extractInvoiceData = async (
   headers.Authorization = `Bearer ${token}`;
 
   const resp = await fetch(
-    `${import.meta.env.VITE_INVOICE_SERVICE_URL}/functions/v1/invoiceReading`,
+    `${process.env.NEXT_PUBLIC_INVOICE_SERVICE_URL}/functions/v1/invoiceReading`,
     {
       method: "POST",
       headers,

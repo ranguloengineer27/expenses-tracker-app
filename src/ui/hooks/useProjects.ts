@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { supabaseClient } from "../../api/clients/supabaseClient";
+import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
 import type { Project } from "../../api/types/project";
 import { fetchProjects } from "../../api/adapters/project";
 import { queryClient } from "../../api/clients/queryClient";
@@ -21,7 +21,8 @@ export const useProjects = () => {
     mutationFn: async (name: string) => {
       const userId = user?.id;
 
-      const { data, error } = await supabaseClient.from("projects").insert({
+      const supabase = await createSupabaseClient();
+      const { data, error } = await supabase.from("projects").insert({
         name,
         owner_id: userId,
       });
@@ -32,7 +33,8 @@ export const useProjects = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
   });
   /* const fetchProjectById = async (projectId: string) => {
-        const { data, error } = await supabaseClient
+        const supabase = await createSupabaseClient();
+        const { data, error } = await supabase
             .from('projects')
             .select('*')
             .eq('id', projectId)
@@ -55,7 +57,8 @@ export const useProjects = () => {
 
   const deleteProject = useMutation({
     mutationFn: async (projectId: string) => {
-      const { data, error } = await supabaseClient
+      const supabase = await createSupabaseClient();
+      const { data, error } = await supabase
         .from("projects")
         .delete()
         .eq("id", projectId);
@@ -68,7 +71,8 @@ export const useProjects = () => {
 
   const updateProjectName = useMutation({
     mutationFn: async ({ projectId, name }: { projectId: string; name: string }) => {
-      const { data, error } = await supabaseClient
+      const supabase = await createSupabaseClient();
+      const { data, error } = await supabase
         .from("projects")
         .update({ name })
         .eq("id", projectId);

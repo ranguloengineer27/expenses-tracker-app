@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Input } from "../../utility-components/Input";
 
 type ProjectNameCellProps = {
@@ -24,7 +24,7 @@ export const ProjectNameCell = ({
                 placeholder="Project Name"
             />
         ) : (
-            <Link to={`/dashboard/${projectId}`}>{projectName}</Link>
+            <Link href={`/dashboard/${projectId}`}>{projectName}</Link>
         )}
     </>
 );
