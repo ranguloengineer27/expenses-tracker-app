@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getExpenseLogs } from "../../api/adapters/log";
+import { getExpenseLogs } from "../../../api/adapters/log";
 
 export const useGetExpenseLogs = (userId: string | undefined) => {
   return useQuery({

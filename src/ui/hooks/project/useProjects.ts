@@ -1,9 +1,9 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { createClient as createSupabaseClient } from "../../../app/supabaseClient";
-import type { Project } from "../../api/types/project";
-import { fetchProjects } from "../../api/adapters/project";
-import { queryClient } from "../../api/clients/queryClient";
-import { useAuthStore } from "../stores/useAuthStore";
+import { createClient as createSupabaseClient } from "../../../../app/supabaseClient";
+import type { Project } from "../../../api/types/project";
+import { fetchProjects } from "../../../api/adapters/project";
+import { queryClient } from "../../../api/clients/queryClient";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 export const useProjects = () => {
   const { user } = useAuthStore();

@@ -1,23 +1,19 @@
-import { useProjects } from "../../hooks/useProjects";
+import { useProjects } from "../../hooks/project/useProjects";
 import { ProjectsTable } from "./ProjectsTable/ProjectsTable";
 import { ProjectInputName } from "./ProjectInputName";
+import { Spinner } from "../utility-components/Spinner";
 
 const Projects = () => {
-    const { projects, isLoading, createProject } = useProjects();
+    const { projects, isLoading } = useProjects();
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <Spinner />;
 
     return (
-        <div className="mt-5">
-            <div className="w-3/5">
-                <h1 className="mb-5">You can manage your projects here</h1>
-                <ProjectInputName onCreate={(name) => createProject.mutate(name)} />
-
-                <ProjectsTable
-                    projects={projects}
-                />
-            </div>
-        </div>
+        <>
+            <ProjectsTable
+                projects={projects}
+            />
+        </>
     );
 };
 

@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import type { Expense } from "../../../../api/types";
 import ExpenseForm from "../ExpenseForm/ExpenseForm";
 import AddInvoiceFile from "../../invoice/AddInvoiceFile/AddInvoiceFile";
-import { useAddExpenses } from "../../../hooks/useAddExpenses";
+import { useAddExpenses } from "../../../hooks/expense/useAddExpenses";
 import { Button } from "../../utility-components/Button";
 import { toast } from "sonner";
 import { FEEDBACK_MESSAGES } from "../expenseConstants";

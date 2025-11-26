@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { extractInvoiceData } from "../../api/adapters/invoices";
+import { extractInvoiceData } from "../../../api/adapters/invoices";
 
 type ExtractInvoiceDataParams = {
     file: File;

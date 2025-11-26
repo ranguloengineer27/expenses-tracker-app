@@ -11,7 +11,7 @@ import {
 import { PAYMENT_TYPES } from "../expenseConstants";
 import { InputWithErrorMessage } from "../../../HOC/InputWithErrorMessage";
 import { SelectWithErrorMessage } from "../../../HOC/SelectWithErrorMessage";
-import { useExpenseForm } from "../../../hooks/useExpenseForm";
+import { useExpenseForm } from "../../../hooks/expense/useExpenseForm";
 import { CategoriesSelectWithErrorMessage } from "../../../HOC/CategoriesSelectWithErrorMessage";
 
 type ExpenseListItemProps = {

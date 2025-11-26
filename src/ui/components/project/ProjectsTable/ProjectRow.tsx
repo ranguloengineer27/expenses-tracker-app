@@ -3,7 +3,7 @@ import { TableCell, TableRow } from "../../utility-components";
 import { ProjectNameCell } from "./ProjectNameCell";
 import { ProjectActionCell } from "./ProjectActionCell";
 import type { Project } from "../../../../api/types/project";
-import { useProjects } from "../../../hooks/useProjects";
+import { useProjects } from "../../../hooks/project/useProjects";
 
 type ProjectRowProps = {
     project: Project;

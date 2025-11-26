@@ -1,4 +1,4 @@
-import { useProjectStore } from "../stores/useProjectStore";
+import { useProjectStore } from "../../stores/useProjectStore";
 
 export const useCurrentProject = () => {
   const project = useProjectStore((state) => state.currentProject);

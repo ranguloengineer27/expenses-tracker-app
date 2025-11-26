@@ -1,8 +1,8 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import type { Expense } from "../../../../api/types";
-import { useCurrentProject } from "../../../hooks/useCurrentProject";
-import { useDeleteExpenses } from "../../../hooks/useDeleteExpense";
-import { useUpdateExpense } from "../../../hooks/useUpdateExpense";
+import { useCurrentProject } from "../../../hooks/project/useCurrentProject";
+import { useDeleteExpenses } from "../../../hooks/expense/useDeleteExpense";
+import { useUpdateExpense } from "../../../hooks/expense/useUpdateExpense";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import ExpenseListItem from "../ExpenseItem/ExpenseItem";
 import { fetchExpensesByProjectId } from "../../../../api/adapters";

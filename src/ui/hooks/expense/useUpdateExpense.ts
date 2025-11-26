@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import type { Expense } from "../../api/types";
-import { updateExpense } from "../../api/adapters";
-import { queryClient } from "../../api/clients/queryClient";
+import type { Expense } from "../../../api/types";
+import { updateExpense } from "../../../api/adapters";
+import { queryClient } from "../../../api/clients/queryClient";
 
 type UpdateExpenseParams = {
     expenseId: string;

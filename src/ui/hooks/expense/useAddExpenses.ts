@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { addExpenseToProject } from "../../api/adapters";
-import { queryClient } from "../../api/clients/queryClient";
+import { addExpenseToProject } from "../../../api/adapters";
+import { queryClient } from "../../../api/clients/queryClient";
 
 export const useAddExpenses = () => {
     return useMutation({

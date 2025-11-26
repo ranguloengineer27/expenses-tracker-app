@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import type { ExpenseFormData, ExpenseFormErrors } from "../components/expense/expenseTypes";
-import { validateExpenseForm } from "../components/expense/expenseHelpers";
+import type { ExpenseFormData, ExpenseFormErrors } from "../../components/expense/expenseTypes";
+import { validateExpenseForm } from "../../components/expense/expenseHelpers";
 
 const EXPENSE_FORM_FIELDS = {
   TITLE: "title",

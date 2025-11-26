@@ -1,6 +1,6 @@
 import { useState, type FC } from "react";
 import { Input } from "../../utility-components/Input";
-import { useCurrentProject } from "../../../hooks/useCurrentProject";
+import { useCurrentProject } from "../../../hooks/project/useCurrentProject";
 import { Button } from "../../utility-components/Button";
 import {
     Dialog,
@@ -11,7 +11,7 @@ import {
     DialogTrigger,
 } from "../../utility-components/Dialog";
 import { CategoriesSelect as ParentCategoriesSelect } from "../CategoriesSelect/CategoriesSelect";
-import { useCreateCategories } from "../../../hooks/useCategoriesCreation";
+import { useCreateCategories } from "../../../hooks/category/useCategoriesCreation";
 
 const AddCategoryDialog: FC = () => {
     const [parentCategoryId, setParentCategoryId] = useState<string>('');

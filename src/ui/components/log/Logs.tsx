@@ -1,5 +1,5 @@
 import { logActions, type LogActionsType } from "../../../api/types/log";
-import { useGetExpenseLogs } from "../../hooks/useGetExpensesLog";
+import { useGetExpenseLogs } from "../../hooks/log/useGetExpensesLog";
 import { useAuthStore } from "../../stores/useAuthStore";
 import List from "../utility-components/List";
 

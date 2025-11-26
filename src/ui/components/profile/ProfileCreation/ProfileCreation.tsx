@@ -1,34 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../utility-components/Input";
-import { useProfileCreation } from "../../../hooks/useProfileCreation";
+import { useProfileCreation } from "../../../hooks/profile/useProfileCreation";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { Button } from "../../utility-components/Button";
 import { useProfileStore } from "../../../stores/useProfileStore";
+import { fetchProfileByName } from "@/api/adapters/profile";
+import { useDebounce } from "@/ui/hooks/shared/useDebounce";
+import { withErrorMessage } from "@/ui/HOC/withErrorMessage";
+import { InputQueryProfiles } from "../InputQueryProfiles";
+
+const ERROR_USER_EXISTS = "That username already exists";
 
 export const ProfileCreation = () => {
     const { user } = useAuthStore();
     const createProfile = useProfileCreation();
     const { profile } = useProfileStore();
-    const [name, setName] = useState("");
     const router = useRouter();
+    const [name, setName] = useState("");
+   const [nameExists, setNameExists] = useState(false);
+    
+    useEffect(() => {
+        if (profile) {
+            router.push("/projects");
+        }
+    }, [profile, router]);
 
-    if (profile) {
-        router.push("/projects");
-        return;
-    }
+    if (profile) return null;
 
     return (
         <div>
             <p>Please write your name</p>
-            <Input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-3 mb-3"
+            <InputQueryProfiles
+                name={name}
+                setName={setName}
+                setNameExists={setNameExists}
+                nameExists={nameExists}
+                error={nameExists ? ERROR_USER_EXISTS : null}
             />
             <Button
+                className="mt-2"
                 onClick={() => {
                     createProfile.mutate({
                         id: user?.id,

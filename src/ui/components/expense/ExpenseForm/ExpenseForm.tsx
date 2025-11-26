@@ -1,7 +1,7 @@
 import { memo } from "react";
 import type { Expense } from "../../../../api/types";
 import AddCategoryDialog from "../../category/AddCategoryDialog/AddCategoryDialog";
-import { useCurrentProject } from "../../../hooks/useCurrentProject";
+import { useCurrentProject } from "../../../hooks/project/useCurrentProject";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { Button } from "../../utility-components/Button";
 import {
@@ -14,7 +14,7 @@ import { PAYMENT_TYPES } from "../expenseConstants";
 import { InputWithErrorMessage } from "../../../HOC/InputWithErrorMessage";
 import { CategoriesSelectWithErrorMessage } from "../../../HOC/CategoriesSelectWithErrorMessage";
 import { SelectWithErrorMessage } from "../../../HOC/SelectWithErrorMessage";
-import { useExpenseForm } from "../../../hooks/useExpenseForm";
+import { useExpenseForm } from "../../../hooks/expense/useExpenseForm";
 
 type ExpenseFormProps = {
   onAddExpense: (expense: Array<Omit<Expense, "id">>) => void;
