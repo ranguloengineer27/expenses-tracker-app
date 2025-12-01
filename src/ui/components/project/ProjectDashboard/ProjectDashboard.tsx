@@ -58,11 +58,11 @@ export const ProjectDashboard = ({ projectId }: { projectId: string }) => {
                         Record expenses
                     </TabsTrigger>
 
-                    {/* {shouldShowAddingUsersTab && ( TODO: FIX BE ISSUES
+                    {shouldShowAddingUsersTab && ( 
                         <TabsTrigger value="addUsers" className="cursor-pointer">
                             Add users
                         </TabsTrigger>
-                    )} */}
+                    )}
 
                     
                 </TabsList>

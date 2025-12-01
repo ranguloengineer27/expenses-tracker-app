@@ -50,7 +50,7 @@ export const AddUsers = () => {
             <Table>
                 <TableBody>
                     <TableRow>
-                        {projectMembers?.map((member) => <><TableCell key={member.id}>{member.name}</TableCell></>)}
+                        {projectMembers?.map((member) => <TableCell key={member.id}>{member.id}</TableCell>)}
                     </TableRow>
                 </TableBody>
             </Table>
